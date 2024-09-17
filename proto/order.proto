@@ -1,0 +1,31 @@
+syntax = "proto3";
+package order;
+option go_package = "./internal/pkg/order/delivery/grpc/gen/;gen";
+import "gmodels/gmodels.proto";
+
+service Order {
+  rpc CreateOrder(CreateOrderRequest) returns (CreateOrderResponse) {}
+  rpc GetOrders(OrdersRequest) returns (OrdersResponse) {}
+}
+
+message CreateOrderRequest {
+  string Id = 1;
+  string DeliveryDate = 2;
+  string DeliveryTime = 3;
+	string PromocodeName = 4;
+}
+
+message CreateOrderResponse {
+  gmodels.Order Order = 1;
+}
+
+message OrdersRequest {
+  string Id = 1;
+}
+
+message OrdersResponse {
+  repeated gmodels.Order Orders = 1;
+}
+
+
+

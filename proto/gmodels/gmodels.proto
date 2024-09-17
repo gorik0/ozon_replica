@@ -1,5 +1,5 @@
 syntax = "proto3";
-option go_package = "github.com/go-park-mail-ru/2023_2_potatiki/proto/gmodels;gmodels";
+option go_package = "ozon_replic/proto/gmodels;gmodels";
 package gmodels;
 
 message Profile {
