@@ -36,6 +36,16 @@ type AuthJWT struct {
 	Issuer               string
 }
 
+func (a AuthJWT) GetTTL() time.Duration {
+	return a.AccessExpirationTime
+}
+func (a AuthJWT) GetSecret() string {
+	return a.JwtAccess
+}
+func (a AuthJWT) GetIssuer() string {
+	return "auth"
+}
+
 type GRPC struct {
 	AuthPort            int    `env:"GRPC_AUTH_PORT" env-defualt:"8011"`
 	OrderPort           int    `env:"GRPC_ORDER_PORT" env-defualt:"8012"`
