@@ -22,6 +22,7 @@ import (
 )
 
 func main() {
+
 	err := run()
 	if err != nil {
 		os.Exit(1)

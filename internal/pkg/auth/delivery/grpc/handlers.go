@@ -7,6 +7,7 @@ import (
 	"ozon_replic/internal/models/models"
 	"ozon_replic/internal/pkg/auth"
 	"ozon_replic/internal/pkg/auth/delivery/grpc/gen"
+	"ozon_replic/internal/pkg/middleware/metricsmw"
 	"ozon_replic/internal/pkg/profile"
 	"ozon_replic/internal/pkg/utils/logger/sl"
 	"ozon_replic/proto/gmodels"

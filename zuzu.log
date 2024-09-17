@@ -1,0 +1,10 @@
+{"time":"2024-09-18T00:32:00.956001257+03:00","level":"INFO","msg":"starting ","env":"prod","addr":":0","log_file_path":"zuzu.log"}
+{"time":"2024-09-18T00:32:00.962854769+03:00","level":"INFO","msg":"grpc server started","addr":"[::]:34961"}
+{"time":"2024-09-18T00:47:29.2762591+03:00","level":"INFO","msg":"Gracefully stopped"}
+{"time":"2024-09-18T00:47:30.494069006+03:00","level":"INFO","msg":"starting ","env":"prod","addr":":0","log_file_path":"zuzu.log"}
+{"time":"2024-09-18T00:47:30.500181188+03:00","level":"INFO","msg":"grpc server started","addr":"[::]:35591"}
+{"time":"2024-09-18T00:47:48.572290883+03:00","level":"ERROR","msg":"failed in uc.SignUp","op":"grpc.(*GrpcAuthHandler).SignUp","error":"Key: 'SignUpPayload.Login' Error:Field validation for 'Login' failed on the 'min' tag\nKey: 'SignUpPayload.Phone' Error:Field validation for 'Phone' failed on the 'e164' tag\nKey: 'SignUpPayload.Password' Error:Field validation for 'Password' failed on the 'min' tag"}
+{"time":"2024-09-18T00:50:29.812366053+03:00","level":"INFO","msg":"got profile","op":"grpc.(*GrpcAuthHandler).SignUp","op":"grpc.(*GrpcAuthHandler).SignUp","profile":"b49d0106-0937-427f-bf57-e44591453f35"}
+{"time":"2024-09-18T00:53:24.687690437+03:00","level":"ERROR","msg":"failed in uc.SignIn","op":"grpc.(*GrpcAuthHandler).SignUp","op":"grpc.(*GrpcAuthHandler).SignUp","op":"grpc.(*GrpcAuthHandler).SignIn","error":"password does not match"}
+{"time":"2024-09-18T00:53:51.263881154+03:00","level":"ERROR","msg":"failed in uc.SignIn","op":"grpc.(*GrpcAuthHandler).SignUp","op":"grpc.(*GrpcAuthHandler).SignUp","op":"grpc.(*GrpcAuthHandler).SignIn","op":"grpc.(*GrpcAuthHandler).SignIn","error":"password does not match"}
+{"time":"2024-09-18T00:53:57.311631604+03:00","level":"INFO","msg":"got profile","op":"grpc.(*GrpcAuthHandler).SignUp","op":"grpc.(*GrpcAuthHandler).SignUp","op":"grpc.(*GrpcAuthHandler).SignIn","op":"grpc.(*GrpcAuthHandler).SignIn","op":"grpc.(*GrpcAuthHandler).SignIn","profile":"b49d0106-0937-427f-bf57-e44591453f35"}
