@@ -15,6 +15,10 @@ type Config struct {
 	PhotosFilePath string `env:"PHOTOS_FILE_PATH" env-default:"photos/"`
 }
 
+func (c Config) GetPhotosFilePath() string {
+	return c.PhotosFilePath
+}
+
 type HTTPServer struct {
 	Address           string        `yaml:"address" yaml-default:"localhost:8080"`
 	Timeout           time.Duration `yaml:"timeout" yaml-default:"4s"`

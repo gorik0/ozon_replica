@@ -14,6 +14,9 @@ import (
 	"os/signal"
 	"ozon_replic/internal/pkg/config"
 	"ozon_replic/internal/pkg/middleware"
+	profileHandler "ozon_replic/internal/pkg/profile/delivery/http"
+	profileRepo "ozon_replic/internal/pkg/profile/repo"
+	profileUsecase "ozon_replic/internal/pkg/profile/usecase"
 	"ozon_replic/internal/pkg/utils/logger"
 	"ozon_replic/internal/pkg/utils/logger/sl"
 	"syscall"
@@ -110,6 +113,11 @@ func run() (err error) {
 	// :::: -.-.-.-.-.-.-. MAKE CONNECT FOR GRPC (auth, order, product)
 
 	//::::::     REPO : USECASE : HANDLER : grpcCLIENT ::::::::  \\\\\\\\
+
+	//  ----profile
+	profileRepo := profileRepo.NewProfileRepo(db)
+	profileUsecase := profileUsecase.NewProfileUsecase(profileRepo, cfg)
+	profileHandler := profileHandler.NewProfileHandler(log, profileUsecase)
 
 	//::::::     REPO : USECASE : HANDLER : grpcCLIENT   ::::::: \\\\\\\
 

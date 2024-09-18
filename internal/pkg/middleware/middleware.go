@@ -6,8 +6,6 @@ import (
 	"net/http"
 	"runtime/debug"
 
-	resp "github.com/go-park-mail-ru/2023_2_potatiki/internal/pkg/utils/responser"
-
 	"github.com/gorilla/mux"
 )
 
@@ -34,7 +32,7 @@ func Recover(log *slog.Logger) mux.MiddlewareFunc {
 					log.Error("Handle panic, recovered",
 						slog.String("recover error", fmt.Sprintf("%v", err)),
 						slog.String("url", r.URL.Path))
-					resp.JSONStatus(w, http.StatusTooManyRequests)
+					//resp.JSONStatus(w, http.StatusTooManyRequests)
 				}
 			}()
 			next.ServeHTTP(w, r)
