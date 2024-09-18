@@ -25,12 +25,19 @@ import (
 	usecase3 "ozon_replic/internal/pkg/category/usecase"
 	"ozon_replic/internal/pkg/config"
 	"ozon_replic/internal/pkg/middleware"
+	gen3 "ozon_replic/internal/pkg/order/delivery/grpc/gen"
+	http9 "ozon_replic/internal/pkg/order/delivery/http"
+	orderRepo "ozon_replic/internal/pkg/order/repo"
+	usecase6 "ozon_replic/internal/pkg/order/usecase"
 	gen2 "ozon_replic/internal/pkg/products/delivery/grpc/gen"
 	http4 "ozon_replic/internal/pkg/products/delivery/http"
 	"ozon_replic/internal/pkg/products/repo"
 	profileHandler "ozon_replic/internal/pkg/profile/delivery/http"
 	profileRepo "ozon_replic/internal/pkg/profile/repo"
 	profileUsecase "ozon_replic/internal/pkg/profile/usecase"
+	http8 "ozon_replic/internal/pkg/promo/delivery/http"
+	promoRepo "ozon_replic/internal/pkg/promo/repo"
+	usecase5 "ozon_replic/internal/pkg/promo/usecase"
 	http5 "ozon_replic/internal/pkg/search/delivery/http"
 	repo2 "ozon_replic/internal/pkg/search/repo"
 	usecase2 "ozon_replic/internal/pkg/search/usecase"
@@ -159,15 +166,15 @@ func run() (err error) {
 	addressUsecase := usecase4.NewAddressUsecase(addressRepo)
 	addressHandler := http7.NewAddressHandler(log, addressUsecase)
 	//
-	//promoRepo := promoRepo.NewPromoRepo(db)
-	//promoUsecase := promoUsecase.NewPromoUsecase(promoRepo)
-	//promoHandler := promoHandler.NewPromoHandler(log, promoUsecase)
+	promoRepo := promoRepo.NewPromoRepo(db)
+	promoUsecase := usecase5.NewPromoUsecase(promoRepo)
+	promoHandler := http8.NewPromoHandler(log, promoUsecase)
 	//
-	//orderRepo := orderRepo.NewOrderRepo(db)
 	//
-	//orderUsecase := orderUsecase.NewOrderUsecase(orderRepo, cartRepo, addressRepo, promoRepo)
-	//orderClient := orderGrpc.NewOrderClient(orderConn)
-	//orderHandler := orderHandler.NewOrderHandler(orderClient, log, orderUsecase)
+	orderRepo := orderRepo.NewOrderRepo(db)
+	orderUsecase := usecase6.NewOrderUsecase(orderRepo, cartRepo, addressRepo, promoRepo)
+	orderClient := gen3.NewOrderClient(orderConn)
+	orderHandler := http9.NewOrderHandler(orderClient, log, orderUsecase)
 	//
 	//commentsRepo := commentsRepo.NewCommentsRepo(db)
 	//commentsUsecase := commentsUsecase.NewCommentsUsecase(commentsRepo)
