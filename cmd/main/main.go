@@ -12,6 +12,8 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"ozon_replic/internal/pkg/auth/delivery/grpc/gen"
+	http2 "ozon_replic/internal/pkg/auth/delivery/http"
 	"ozon_replic/internal/pkg/config"
 	"ozon_replic/internal/pkg/middleware"
 	profileHandler "ozon_replic/internal/pkg/profile/delivery/http"
@@ -118,6 +120,53 @@ func run() (err error) {
 	profileRepo := profileRepo.NewProfileRepo(db)
 	profileUsecase := profileUsecase.NewProfileUsecase(profileRepo, cfg)
 	profileHandler := profileHandler.NewProfileHandler(log, profileUsecase)
+
+	authClient := gen.NewAuthClient(authConn)
+	authHandler := http2.NewAuthHandler(authClient, log)
+
+	//
+	//cartRepo := cartRepo.NewCartRepo(db)
+	//cartUsecase := cartUsecase.NewCartUsecase(cartRepo)
+	//cartHandler := cartHandler.NewCartHandler(log, cartUsecase)
+	//
+	//productsClient := productsGrpc.NewProductsClient(productConn)
+	//productsRepo := productsRepo.NewProductsRepo(db)
+	//productsHandler := productsHandler.NewProductsHandler(productsClient, log)
+	//
+	//searchRepo := searchRepo.NewSearchRepo(db)
+	//searchUsecase := searchUsecase.NewSearchUsecase(searchRepo, productsRepo)
+	//searchHandler := searchHandler.NewSearchHandler(log, searchUsecase)
+	//
+	//categoryRepo := categoryRepo.NewCategoryRepo(db)
+	//categoryUsecase := categoryUsecase.NewCategoryUsecase(categoryRepo)
+	//categoryHandler := categoryHandler.NewCategoryHandler(log, categoryUsecase)
+	//
+	//addressRepo := addressRepo.NewAddressRepo(db)
+	//addressUsecase := addressUsecase.NewAddressUsecase(addressRepo)
+	//addressHandler := addressHandler.NewAddressHandler(log, addressUsecase)
+	//
+	//promoRepo := promoRepo.NewPromoRepo(db)
+	//promoUsecase := promoUsecase.NewPromoUsecase(promoRepo)
+	//promoHandler := promoHandler.NewPromoHandler(log, promoUsecase)
+	//
+	//orderRepo := orderRepo.NewOrderRepo(db)
+	//
+	//orderUsecase := orderUsecase.NewOrderUsecase(orderRepo, cartRepo, addressRepo, promoRepo)
+	//orderClient := orderGrpc.NewOrderClient(orderConn)
+	//orderHandler := orderHandler.NewOrderHandler(orderClient, log, orderUsecase)
+	//
+	//commentsRepo := commentsRepo.NewCommentsRepo(db)
+	//commentsUsecase := commentsUsecase.NewCommentsUsecase(commentsRepo)
+	//commentsHandler := commentsHandler.NewCommentsHandler(log, commentsUsecase)
+	//
+	//recRepo := recRepo.NewRecommendationsRepo(db)
+	//recUsecase := recUsecase.NewRecommendationsUsecase(recRepo)
+	//recHandler := recHandler.NewRecommendationsHandler(log, recUsecase)
+	//
+	//hub := clientHub.NewHub(orderRepo)
+	//notificationsRepo := notificationsRepo.NewNotificationsRepo(db)
+	//notificationsUsecase := notificationsUsecase.NewNotificationsUsecase(notificationsRepo)
+	//notificationsHandler := notificationsHandler.NewNotificationsHandler(hub, notificationsUsecase, log)
 
 	//::::::     REPO : USECASE : HANDLER : grpcCLIENT   ::::::: \\\\\\\
 

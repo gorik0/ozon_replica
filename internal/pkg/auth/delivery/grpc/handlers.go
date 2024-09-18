@@ -27,7 +27,7 @@ type GrpcAuthHandler struct {
 	gen.AuthServer
 }
 
-func NewGrpcAuthHandler(uc auth.AuthUsecase, log *slog.Logger) *GrpcAuthHandler {
+func NewGrpcAuthHandler(uc gen.AuthClient, log *slog.Logger) *GrpcAuthHandler {
 	return &GrpcAuthHandler{
 		uc:  uc,
 		log: log,
