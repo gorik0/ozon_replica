@@ -14,6 +14,9 @@ import (
 	"os/signal"
 	"ozon_replic/internal/pkg/auth/delivery/grpc/gen"
 	http2 "ozon_replic/internal/pkg/auth/delivery/http"
+	http3 "ozon_replic/internal/pkg/cart/delivery/http"
+	cartRepo "ozon_replic/internal/pkg/cart/repo"
+	"ozon_replic/internal/pkg/cart/usecase"
 	"ozon_replic/internal/pkg/config"
 	"ozon_replic/internal/pkg/middleware"
 	profileHandler "ozon_replic/internal/pkg/profile/delivery/http"
@@ -124,11 +127,10 @@ func run() (err error) {
 	authClient := gen.NewAuthClient(authConn)
 	authHandler := http2.NewAuthHandler(authClient, log)
 
-	//
-	//cartRepo := cartRepo.NewCartRepo(db)
-	//cartUsecase := cartUsecase.NewCartUsecase(cartRepo)
-	//cartHandler := cartHandler.NewCartHandler(log, cartUsecase)
-	//
+	cartRepo := cartRepo.NewCartRepo(db)
+	cartUsecase := usecase.NewCartUsecase(cartRepo)
+	cartHandler := http3.NewCartHandler(log, cartUsecase)
+
 	//productsClient := productsGrpc.NewProductsClient(productConn)
 	//productsRepo := productsRepo.NewProductsRepo(db)
 	//productsHandler := productsHandler.NewProductsHandler(productsClient, log)
