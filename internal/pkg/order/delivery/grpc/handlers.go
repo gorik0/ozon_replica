@@ -3,6 +3,7 @@ package grpc
 import (
 	"context"
 	"errors"
+	"log"
 	"log/slog"
 	addressRepo "ozon_replic/internal/pkg/address/repo"
 	cartRepo "ozon_replic/internal/pkg/cart/repo"
@@ -43,6 +44,7 @@ func (h GrpcOrderHandler) CreateOrder(ctx context.Context, in *gen.CreateOrderRe
 	)
 
 	userId, err := uuid.FromString(in.Id)
+	log.Println("USERid :::", userId)
 	if err != nil {
 		h.log.Error("failed to get uuid from string", sl.Err(err))
 		return nil, metricsmw.ClientError

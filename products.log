@@ -5,3 +5,21 @@
 {"time":"2024-09-18T13:59:56.030254301+03:00","level":"INFO","msg":"Gracefully stopped"}
 {"time":"2024-09-18T13:59:58.798637013+03:00","level":"INFO","msg":"starting ","env":"prod","addr":":0","log_file_path":"zuzu.log"}
 {"time":"2024-09-18T13:59:58.804772592+03:00","level":"INFO","msg":"grpc server started","addr":"[::]:8013"}
+{"time":"2024-09-18T19:25:32.76828663+03:00","level":"INFO","msg":"starting ","env":"prod","addr":":0","log_file_path":"zuzu.log"}
+{"time":"2024-09-18T19:25:32.769346588+03:00","level":"ERROR","msg":"fail open postgres","error":"failed to connect to `host=0.0.0.0 user=goirk database=postgres`: dial error (dial tcp 0.0.0.0:5432: connect: connection refused)"}
+{"time":"2024-09-18T19:26:57.86033739+03:00","level":"INFO","msg":"starting ","env":"prod","addr":":0","log_file_path":"zuzu.log"}
+{"time":"2024-09-18T19:26:57.894687803+03:00","level":"INFO","msg":"grpc server started","addr":"[::]:42677"}
+{"time":"2024-09-18T19:28:23.02497093+03:00","level":"ERROR","msg":"failed to get uuid from string","op":"grpc.GrpcOrderHandler.CreateOrder","error":"uuid: incorrect UUID length: 2343"}
+{"time":"2024-09-18T19:28:52.291001831+03:00","level":"ERROR","msg":"failed to get uuid from string","op":"grpc.GrpcOrderHandler.CreateOrder","error":"uuid: incorrect UUID length: kKGjkhg78878tuG87t"}
+{"time":"2024-09-18T19:29:24.909797444+03:00","level":"ERROR","msg":"failed to CreateOrder","op":"grpc.GrpcOrderHandler.CreateOrder","error":"error happened in repoAddress.ReadCurrentAddressID: address not found"}
+{"time":"2024-09-18T19:32:11.25459334+03:00","level":"ERROR","msg":"failed to CreateOrder","op":"grpc.GrpcOrderHandler.CreateOrder","error":"error happened in repoAddress.ReadCurrentAddressID: address not found"}
+{"time":"2024-09-18T19:39:02.096250356+03:00","level":"INFO","msg":"Gracefully stopped"}
+{"time":"2024-09-18T19:39:24.254298016+03:00","level":"INFO","msg":"starting ","env":"prod","addr":":0","log_file_path":"zuzu.log"}
+{"time":"2024-09-18T19:39:24.26500333+03:00","level":"INFO","msg":"grpc server started","addr":"[::]:35641"}
+{"time":"2024-09-18T19:39:45.834353517+03:00","level":"ERROR","msg":"failed to CreateOrder","op":"grpc.GrpcOrderHandler.CreateOrder","error":"error happened in repoAddress.ReadCurrentAddressID: address not found"}
+{"time":"2024-09-18T19:45:40.709604426+03:00","level":"ERROR","msg":"failed to CreateOrder","op":"grpc.GrpcOrderHandler.CreateOrder","error":"cart not found"}
+{"time":"2024-09-18T19:47:44.75220618+03:00","level":"ERROR","msg":"failed to CreateOrder","op":"grpc.GrpcOrderHandler.CreateOrder","error":"error happened in repoAddress.ReadCurrentAddressID: address not found"}
+{"time":"2024-09-18T19:47:58.550638861+03:00","level":"ERROR","msg":"failed to CreateOrder","op":"grpc.GrpcOrderHandler.CreateOrder","error":"cart not found"}
+{"time":"2024-09-18T19:48:07.847379483+03:00","level":"ERROR","msg":"failed to CreateOrder","op":"grpc.GrpcOrderHandler.CreateOrder","error":"error happened in repoAddress.ReadCurrentAddressID: address not found"}
+{"time":"2024-09-18T19:48:30.045722879+03:00","level":"ERROR","msg":"failed to CreateOrder","op":"grpc.GrpcOrderHandler.CreateOrder","error":"error happened in repoAddress.ReadCurrentAddressID: address not found"}
+{"time":"2024-09-18T19:48:51.873277009+03:00","level":"ERROR","msg":"failed to CreateOrder","op":"grpc.GrpcOrderHandler.CreateOrder","error":"cart not found"}

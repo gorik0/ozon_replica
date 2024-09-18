@@ -39,8 +39,21 @@ run_products:
   	POSTGRES_USER=goirk \
    	go run cmd/products/main.go
 
+run_order:
+	AUTH_JWT_SECRET_KEY=2132 \
+  	CSRF_JWT_SECRET_KEY=12387 \
+  	POSTGRES_DB=postgres \
+  	POSTGRES_DB=postgres \
+  	DB_PORT=5432 \
+  	POSTGRES_PASSWORD=gorik \
+  	POSTGRES_USER=goirk \
+   	go run cmd/orders/main.go
+
 client_auth:
 	go run client/auth/client.go
 
 client_products:
 	go run client/products/client.go
+
+client_orders:
+	go run client/order/client.go
