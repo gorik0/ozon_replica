@@ -19,6 +19,9 @@ import (
 	"ozon_replic/internal/pkg/cart/usecase"
 	"ozon_replic/internal/pkg/config"
 	"ozon_replic/internal/pkg/middleware"
+	gen2 "ozon_replic/internal/pkg/products/delivery/grpc/gen"
+	http4 "ozon_replic/internal/pkg/products/delivery/http"
+	"ozon_replic/internal/pkg/products/repo"
 	profileHandler "ozon_replic/internal/pkg/profile/delivery/http"
 	profileRepo "ozon_replic/internal/pkg/profile/repo"
 	profileUsecase "ozon_replic/internal/pkg/profile/usecase"
@@ -131,10 +134,10 @@ func run() (err error) {
 	cartUsecase := usecase.NewCartUsecase(cartRepo)
 	cartHandler := http3.NewCartHandler(log, cartUsecase)
 
-	//productsClient := productsGrpc.NewProductsClient(productConn)
-	//productsRepo := productsRepo.NewProductsRepo(db)
-	//productsHandler := productsHandler.NewProductsHandler(productsClient, log)
-	//
+	productsClient := gen2.NewProductsClient(productConn)
+	productsRepo := repo.NewProductsRepo(db)
+	productsHandler := http4.NewProductsHandler(productsClient, log)
+
 	//searchRepo := searchRepo.NewSearchRepo(db)
 	//searchUsecase := searchUsecase.NewSearchUsecase(searchRepo, productsRepo)
 	//searchHandler := searchHandler.NewSearchHandler(log, searchUsecase)
