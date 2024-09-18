@@ -12,6 +12,9 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	http7 "ozon_replic/internal/pkg/address/delivery/http"
+	addressRepo "ozon_replic/internal/pkg/address/repo"
+	usecase4 "ozon_replic/internal/pkg/address/usecase"
 	"ozon_replic/internal/pkg/auth/delivery/grpc/gen"
 	http2 "ozon_replic/internal/pkg/auth/delivery/http"
 	http3 "ozon_replic/internal/pkg/cart/delivery/http"
@@ -152,9 +155,9 @@ func run() (err error) {
 	categoryUsecase := usecase3.NewCategoryUsecase(categoryRepo)
 	categoryHandler := http6.NewCategoryHandler(log, categoryUsecase)
 	//
-	//addressRepo := addressRepo.NewAddressRepo(db)
-	//addressUsecase := addressUsecase.NewAddressUsecase(addressRepo)
-	//addressHandler := addressHandler.NewAddressHandler(log, addressUsecase)
+	addressRepo := addressRepo.NewAddressRepo(db)
+	addressUsecase := usecase4.NewAddressUsecase(addressRepo)
+	addressHandler := http7.NewAddressHandler(log, addressUsecase)
 	//
 	//promoRepo := promoRepo.NewPromoRepo(db)
 	//promoUsecase := promoUsecase.NewPromoUsecase(promoRepo)
