@@ -17,6 +17,9 @@ import (
 	http3 "ozon_replic/internal/pkg/cart/delivery/http"
 	cartRepo "ozon_replic/internal/pkg/cart/repo"
 	"ozon_replic/internal/pkg/cart/usecase"
+	http6 "ozon_replic/internal/pkg/category/delivery/http"
+	repo3 "ozon_replic/internal/pkg/category/repo"
+	usecase3 "ozon_replic/internal/pkg/category/usecase"
 	"ozon_replic/internal/pkg/config"
 	"ozon_replic/internal/pkg/middleware"
 	gen2 "ozon_replic/internal/pkg/products/delivery/grpc/gen"
@@ -145,9 +148,9 @@ func run() (err error) {
 	searchUsecase := usecase2.NewSearchUsecase(searchRepo, productsRepo)
 	searchHandler := http5.NewSearchHandler(log, searchUsecase)
 	//
-	//categoryRepo := categoryRepo.NewCategoryRepo(db)
-	//categoryUsecase := categoryUsecase.NewCategoryUsecase(categoryRepo)
-	//categoryHandler := categoryHandler.NewCategoryHandler(log, categoryUsecase)
+	categoryRepo := repo3.NewCategoryRepo(db)
+	categoryUsecase := usecase3.NewCategoryUsecase(categoryRepo)
+	categoryHandler := http6.NewCategoryHandler(log, categoryUsecase)
 	//
 	//addressRepo := addressRepo.NewAddressRepo(db)
 	//addressUsecase := addressUsecase.NewAddressUsecase(addressRepo)
