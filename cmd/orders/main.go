@@ -5,11 +5,22 @@ import (
 	"errors"
 	"fmt"
 	"github.com/jackc/pgx/v4/pgxpool"
+	grpc2 "google.golang.org/grpc"
 	"log/slog"
+	"net"
 	"os"
+	"os/signal"
+	addressRepo "ozon_replic/internal/pkg/address/repo"
+	cartRepo "ozon_replic/internal/pkg/cart/repo"
 	"ozon_replic/internal/pkg/config"
+	"ozon_replic/internal/pkg/order/delivery/grpc"
+	"ozon_replic/internal/pkg/order/delivery/grpc/gen"
+	orderRepo "ozon_replic/internal/pkg/order/repo"
+	"ozon_replic/internal/pkg/order/usecase"
+	promoRepo "ozon_replic/internal/pkg/promo/repo"
 	"ozon_replic/internal/pkg/utils/logger"
 	"ozon_replic/internal/pkg/utils/logger/sl"
+	"syscall"
 )
 
 func main() {
@@ -60,6 +71,33 @@ func run() (err error) {
 		return fmt.Errorf("error happened in db.Ping: %w", err)
 	}
 	//::::::::DBDBDBBDBBDBBDBDBDB
+	addressRepo := addressRepo.NewAddressRepo(db)
+	cartRepo := cartRepo.NewCartRepo(db)
+	promoRepo := promoRepo.NewPromoRepo(db)
+	orderRepo := orderRepo.NewOrderRepo(db)
+	orderUsecase := usecase.NewOrderUsecase(orderRepo, cartRepo, addressRepo, promoRepo)
+	orderHandler := grpc.NewGrpcOrderHandler(orderUsecase, log)
 
-	return err
+	server := grpc2.NewServer()
+	gen.RegisterOrderServer(server, orderHandler)
+
+	go func() {
+		listener, err := net.Listen("tcp", fmt.Sprintf(":%d", cfg.GRPC.OrderPort))
+		if err != nil {
+			log.Error("listen returned err: ", sl.Err(err))
+		}
+		log.Info("grpc server started", slog.String("addr", listener.Addr().String()))
+		if err := server.Serve(listener); err != nil {
+			log.Error("serve returned err: ", sl.Err(err))
+		}
+	}()
+
+	stop := make(chan os.Signal, 1)
+	signal.Notify(stop, syscall.SIGTERM, syscall.SIGINT)
+
+	<-stop
+
+	server.GracefulStop()
+	log.Info("Gracefully stopped")
+	return nil
 }

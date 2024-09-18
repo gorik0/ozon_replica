@@ -5,9 +5,14 @@ import (
 	"errors"
 	"fmt"
 	"ozon_replic/internal/models/models"
+	"ozon_replic/internal/pkg/address"
+	addressRepo "ozon_replic/internal/pkg/address/repo"
+
 	"ozon_replic/internal/pkg/cart"
-	"ozon_replic/internal/pkg/cart/repo"
+	cartRepo "ozon_replic/internal/pkg/cart/repo"
 	"ozon_replic/internal/pkg/order"
+	orderRepo "ozon_replic/internal/pkg/order/repo"
+	"ozon_replic/internal/pkg/promo"
 	"time"
 
 	uuid "github.com/satori/go.uuid"
@@ -15,7 +20,7 @@ import (
 
 type OrderUsecase struct {
 	repoOrder   order.OrderRepo
-	repoCart    repo.CartRepo
+	repoCart    cart.CartRepo
 	repoAddress address.AddressRepo
 	repoPromo   promo.PromoRepo
 }
@@ -39,7 +44,7 @@ func (uc *OrderUsecase) CreateOrder(
 
 	address, err := uc.repoAddress.ReadCurrentAddress(ctx, userID)
 	if err != nil {
-		if errors.Is(err, addressRepo.ErrAddressNotFound) {
+		if errors.Is(err, addressRepo.ErrAddressesNotFound) {
 			return models.Order{}, err
 		}
 		return models.Order{}, fmt.Errorf("error happened in repoAddress.ReadCurrentAddressID: %w", err)
