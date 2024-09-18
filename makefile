@@ -12,11 +12,14 @@ grpc_gen:
 
 
 run:
-	UTH_JWT_SECRET_KEY=2132 \
-  	CSRF_JWT_SECRET_KEY=123 \
+	AUTH_JWT_SECRET_KEY=2132 \
+  	CSRF_JWT_SECRET_KEY=12387 \
   	POSTGRES_DB=postgres \
   	POSTGRES_DB=postgres \
   	DB_PORT=5432 \
   	POSTGRES_PASSWORD=gorik \
   	POSTGRES_USER=goirk \
    	go run cmd/auth/main.go
+
+client_auth:
+	go run client/client.go
