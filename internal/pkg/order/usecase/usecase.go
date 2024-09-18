@@ -5,6 +5,8 @@ import (
 	"errors"
 	"fmt"
 	"ozon_replic/internal/models/models"
+	"ozon_replic/internal/pkg/cart"
+	"ozon_replic/internal/pkg/cart/repo"
 	"ozon_replic/internal/pkg/order"
 	"time"
 
@@ -13,7 +15,7 @@ import (
 
 type OrderUsecase struct {
 	repoOrder   order.OrderRepo
-	repoCart    cart.CartRepo
+	repoCart    repo.CartRepo
 	repoAddress address.AddressRepo
 	repoPromo   promo.PromoRepo
 }
