@@ -1,7 +1,15 @@
 init_db:
 
-run_migration:
+
+
+run_migration_up:
 	 migrate -database postgres://goirk:gorik@localhost:5432/postgres?sslmode=disable -path ./db/migrations -verbose  up
+
+run_migration_down:
+	 migrate -database postgres://goirk:gorik@localhost:5432/postgres?sslmode=disable -path ./db/migrations -verbose  down
+
+run_migration_force:
+	 migrate -database postgres://goirk:gorik@localhost:5432/postgres?sslmode=disable -path ./db/migrations -verbose  force $(V)
 
 
 
@@ -32,4 +40,7 @@ run_products:
    	go run cmd/products/main.go
 
 client_auth:
-	go run client/client.go
+	go run client/auth/client.go
+
+client_products:
+	go run client/products/client.go

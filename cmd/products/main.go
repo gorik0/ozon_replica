@@ -5,11 +5,19 @@ import (
 	"errors"
 	"fmt"
 	"github.com/jackc/pgx/v4/pgxpool"
+	grp "google.golang.org/grpc"
 	"log/slog"
+	"net"
 	"os"
+	"os/signal"
 	"ozon_replic/internal/pkg/config"
+	"ozon_replic/internal/pkg/products/delivery/grpc"
+	"ozon_replic/internal/pkg/products/delivery/grpc/gen"
+	"ozon_replic/internal/pkg/products/repo"
+	"ozon_replic/internal/pkg/products/usecase"
 	"ozon_replic/internal/pkg/utils/logger"
 	"ozon_replic/internal/pkg/utils/logger/sl"
+	"syscall"
 )
 
 func main() {
@@ -59,5 +67,33 @@ func run() error {
 	}
 	//	::::: DB CREATE
 
-	return err
+	prodRepo := repo.NewProductsRepo(db)
+	prodUsecase := usecase.NewProductsUsecase(prodRepo)
+	grpcProdHandler := grpc.NewGrpcProductsHandler(prodUsecase, log)
+
+	//grpcMetrics := metrics.NewMetricGRPC(metrics.ServiceAuthName)
+	//metricsMw := metricsmw.NewGrpcMiddleware(grpcMetrics)
+	gRPCServer := grp.NewServer()
+
+	gen.RegisterProductsServer(gRPCServer, grpcProdHandler)
+
+	go func() {
+		listener, err := net.Listen("tcp", fmt.Sprintf(":%d", 8013))
+		if err != nil {
+			log.Error("listen returned err: ", sl.Err(err))
+		}
+		log.Info("grpc server started", slog.String("addr", listener.Addr().String()))
+		if err := gRPCServer.Serve(listener); err != nil {
+			log.Error("serve returned err: ", sl.Err(err))
+		}
+	}()
+
+	stop := make(chan os.Signal, 1)
+	signal.Notify(stop, syscall.SIGTERM, syscall.SIGINT)
+
+	<-stop
+
+	gRPCServer.GracefulStop()
+	log.Info("Gracefully stopped")
+	return nil
 }

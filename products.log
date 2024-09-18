@@ -1,1 +1,7 @@
 {"time":"2024-09-18T13:15:39.497890346+03:00","level":"INFO","msg":"starting ","env":"prod","addr":":0","log_file_path":"zuzu.log"}
+{"time":"2024-09-18T13:28:10.349781272+03:00","level":"INFO","msg":"starting ","env":"prod","addr":":0","log_file_path":"zuzu.log"}
+{"time":"2024-09-18T13:28:10.356082658+03:00","level":"INFO","msg":"grpc server started","addr":"[::]:8013"}
+{"time":"2024-09-18T13:36:49.203764557+03:00","level":"ERROR","msg":"failed to get uuid from string","op":"grpc.GrpcProductsHandler.GetProduct","error":"uuid: incorrect UUID length: 12345"}
+{"time":"2024-09-18T13:59:56.030254301+03:00","level":"INFO","msg":"Gracefully stopped"}
+{"time":"2024-09-18T13:59:58.798637013+03:00","level":"INFO","msg":"starting ","env":"prod","addr":":0","log_file_path":"zuzu.log"}
+{"time":"2024-09-18T13:59:58.804772592+03:00","level":"INFO","msg":"grpc server started","addr":"[::]:8013"}
