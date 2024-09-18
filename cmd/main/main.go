@@ -25,6 +25,9 @@ import (
 	profileHandler "ozon_replic/internal/pkg/profile/delivery/http"
 	profileRepo "ozon_replic/internal/pkg/profile/repo"
 	profileUsecase "ozon_replic/internal/pkg/profile/usecase"
+	http5 "ozon_replic/internal/pkg/search/delivery/http"
+	repo2 "ozon_replic/internal/pkg/search/repo"
+	usecase2 "ozon_replic/internal/pkg/search/usecase"
 	"ozon_replic/internal/pkg/utils/logger"
 	"ozon_replic/internal/pkg/utils/logger/sl"
 	"syscall"
@@ -138,9 +141,9 @@ func run() (err error) {
 	productsRepo := repo.NewProductsRepo(db)
 	productsHandler := http4.NewProductsHandler(productsClient, log)
 
-	//searchRepo := searchRepo.NewSearchRepo(db)
-	//searchUsecase := searchUsecase.NewSearchUsecase(searchRepo, productsRepo)
-	//searchHandler := searchHandler.NewSearchHandler(log, searchUsecase)
+	searchRepo := repo2.NewSearchRepo(db)
+	searchUsecase := usecase2.NewSearchUsecase(searchRepo, productsRepo)
+	searchHandler := http5.NewSearchHandler(log, searchUsecase)
 	//
 	//categoryRepo := categoryRepo.NewCategoryRepo(db)
 	//categoryUsecase := categoryUsecase.NewCategoryUsecase(categoryRepo)
