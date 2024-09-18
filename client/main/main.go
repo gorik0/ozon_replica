@@ -1,13 +1,23 @@
 package main
 
 import (
+	"context"
 	"errors"
 	"fmt"
+	"github.com/gorilla/mux"
+	"github.com/jackc/pgx/v4/pgxpool"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 	"log/slog"
+	"net/http"
 	"os"
+	"os/signal"
 	"ozon_replic/internal/pkg/config"
+	"ozon_replic/internal/pkg/middleware"
 	"ozon_replic/internal/pkg/utils/logger"
 	"ozon_replic/internal/pkg/utils/logger/sl"
+	"syscall"
+	"time"
 )
 
 func main() {
@@ -40,5 +50,135 @@ func run() (err error) {
 		slog.String("photos_file_path", cfg.PhotosFilePath),
 	)
 	log.Debug("debug messages are enabled")
+
+	//:::::DB:::::
+
+	db, err := pgxpool.Connect(context.Background(), fmt.Sprintf("postgres://%v:%v@%v:%v/%v?sslmode=disable",
+		cfg.DBUser,
+		cfg.DBPass,
+		cfg.DBHost,
+		cfg.DBPort,
+		cfg.DBName))
+	if err != nil {
+		log.Error("fail open postgres", sl.Err(err))
+		err = fmt.Errorf("error happened in sql.Open: %w", err)
+
+		return err
+	}
+	defer db.Close()
+
+	if err = db.Ping(context.Background()); err != nil {
+		log.Error("fail ping postgres", sl.Err(err))
+		err = fmt.Errorf("error happened in db.Ping: %w", err)
+
+		return err
+	}
+
+	//:::::DB:::::
+
+	// :::: -.-.-.-.-.-.-. MAKE CONNECT FOR GRPC (auth, order, product)
+
+	authConn, err := grpc.Dial(fmt.Sprintf("%s:%d", cfg.GRPC.AuthContainerIP, cfg.GRPC.AuthPort),
+		grpc.WithTransportCredentials(insecure.NewCredentials()))
+	if err != nil {
+		log.Error("fail grpc.Dial auth", sl.Err(err))
+		err = fmt.Errorf("error happened in grpc.Dial auth: %w", err)
+
+		return err
+	}
+	defer authConn.Close()
+
+	orderConn, err := grpc.Dial(fmt.Sprintf("%s:%d", cfg.GRPC.OrderContainerIP, cfg.GRPC.OrderPort),
+		grpc.WithTransportCredentials(insecure.NewCredentials()))
+	if err != nil {
+		log.Error("fail grpc.Dial order", sl.Err(err))
+		err = fmt.Errorf("error happened in grpc.Dial order: %w", err)
+
+		return err
+	}
+	defer orderConn.Close()
+
+	productConn, err := grpc.Dial(fmt.Sprintf("%s:%d", cfg.GRPC.ProductsContainerIP, cfg.GRPC.ProductsPort),
+		grpc.WithTransportCredentials(insecure.NewCredentials()))
+	if err != nil {
+		log.Error("fail grpc.Dial product", sl.Err(err))
+		err = fmt.Errorf("error happened in grpc.Dial product: %w", err)
+
+		return err
+	}
+	defer productConn.Close()
+	// :::: -.-.-.-.-.-.-. MAKE CONNECT FOR GRPC (auth, order, product)
+
+	//::::::     REPO : USECASE : HANDLER : grpcCLIENT ::::::::  \\\\\\\\
+
+	//::::::     REPO : USECASE : HANDLER : grpcCLIENT   ::::::: \\\\\\\
+
+	// ::::: init ROUTER ::::\\\\\
+
+	r := mux.NewRouter().PathPrefix("/api").Subrouter() // ::::: init ROUTER ::::\\\\\
+
+	r.Use(middleware.Recover(log), middleware.CORSMiddleware)
+	//r.Use(middleware.Recover(log), middleware.CORSMiddleware, logmw.New(mt, log))
+
+	r.NotFoundHandler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		http.Error(w, "Not Found", http.StatusNotFound)
+	})
+
+	//r.PathPrefix("/metrics").Handler(promhttp.Handler())
+	//
+	//r.PathPrefix("/swagger/").Handler(httpSwagger.Handler(
+	//	httpSwagger.DeepLinking(true),
+	//	httpSwagger.DocExpansion("none"),
+	//	httpSwagger.DomID("swagger-ui"),
+	//)).Methods(http.MethodGet)
+
+	// ::::::; endPOINTS ;::::::\\\\\\\
+
+	// ::::::; endPOINTS ;::::::\\\\\\\
+
+	// ::::::; make SERVER;::::::\\\\\\\
+
+	http.Handle("/", r)
+
+	srv := http.Server{
+		Handler:           r,
+		Addr:              cfg.Address,
+		ReadTimeout:       cfg.Timeout,
+		WriteTimeout:      cfg.Timeout,
+		IdleTimeout:       cfg.IdleTimeout,
+		ReadHeaderTimeout: cfg.ReadHeaderTimeout,
+	}
+
+	quit := make(chan os.Signal, 1)
+	// SIGINT = ctrl+c; SIGTERM = kill; Interrupt = аппаратное прерывание, в Windows даст ошибку
+	signal.Notify(quit, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
+
+	//go hub.Run(context.Background())
+
+	go func() {
+		if err := srv.ListenAndServe(); err != nil {
+			log.Error("listen and serve returned err: ", sl.Err(err))
+		}
+	}()
+
+	log.Info("server started")
+	sig := <-quit
+	log.Debug("handle quit chanel: ", slog.Any("os.Signal", sig.String()))
+	log.Info("server stopping...")
+
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	if err = srv.Shutdown(ctx); err != nil {
+		log.Error("server shutdown returned an err: ", sl.Err(err))
+		err = fmt.Errorf("error happened in srv.Shutdown: %w", err)
+
+		return err
+	}
+
+	log.Info("server stopped")
+
+	return nil
+	// ::::::; make SERVER;::::::\\\\\\\
 	return err
 }
