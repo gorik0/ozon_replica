@@ -2,8 +2,6 @@ package models
 
 import uuid "github.com/satori/go.uuid"
 
-//go:generate easyjson -all /home/scremyda/GolandProjects/2023_2_potatiki/internal/models/survey.go
-
 type SurveysCompleted struct {
 	CompletedSurveys []string `json:"completedSurveys"`
 }

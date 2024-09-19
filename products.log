@@ -23,3 +23,31 @@
 {"time":"2024-09-18T19:48:07.847379483+03:00","level":"ERROR","msg":"failed to CreateOrder","op":"grpc.GrpcOrderHandler.CreateOrder","error":"error happened in repoAddress.ReadCurrentAddressID: address not found"}
 {"time":"2024-09-18T19:48:30.045722879+03:00","level":"ERROR","msg":"failed to CreateOrder","op":"grpc.GrpcOrderHandler.CreateOrder","error":"error happened in repoAddress.ReadCurrentAddressID: address not found"}
 {"time":"2024-09-18T19:48:51.873277009+03:00","level":"ERROR","msg":"failed to CreateOrder","op":"grpc.GrpcOrderHandler.CreateOrder","error":"cart not found"}
+{"time":"2024-09-19T10:23:37.759549699+03:00","level":"INFO","msg":"starting ","env":"prod","addr":":0","log_file_path":"zuzu.log"}
+{"time":"2024-09-19T10:23:37.765649506+03:00","level":"INFO","msg":"grpc server started","addr":"[::]:46733"}
+{"time":"2024-09-19T10:23:48.338778542+03:00","level":"INFO","msg":"starting ","env":"prod","addr":":0","log_file_path":"zuzu.log"}
+{"time":"2024-09-19T10:23:48.344949098+03:00","level":"INFO","msg":"grpc server started","addr":"[::]:8013"}
+{"time":"2024-09-19T12:14:21.268217835+03:00","level":"INFO","msg":"Gracefully stopped"}
+{"time":"2024-09-19T12:14:23.427323797+03:00","level":"INFO","msg":"starting ","env":"prod","addr":":0","log_file_path":"zuzu.log"}
+{"time":"2024-09-19T12:14:23.445557483+03:00","level":"INFO","msg":"grpc server started","addr":"[::]:35595"}
+{"time":"2024-09-19T12:14:24.164795714+03:00","level":"INFO","msg":"Gracefully stopped"}
+{"time":"2024-09-19T12:14:26.221856581+03:00","level":"INFO","msg":"starting ","env":"prod","addr":":0","log_file_path":"zuzu.log"}
+{"time":"2024-09-19T12:14:26.240030577+03:00","level":"INFO","msg":"grpc server started","addr":"[::]:8013"}
+{"time":"2024-09-19T12:22:14.828375002+03:00","level":"INFO","msg":"Gracefully stopped"}
+{"time":"2024-09-19T12:22:16.941500491+03:00","level":"INFO","msg":"starting zuzu-order","env":"prod","addr":"zuzu-order:8012","log_file_path":"zuzu.log"}
+{"time":"2024-09-19T12:22:16.96827181+03:00","level":"INFO","msg":"grpc server started","addr":"[::]:8012"}
+{"time":"2024-09-19T12:22:17.419524369+03:00","level":"INFO","msg":"Gracefully stopped"}
+{"time":"2024-09-19T12:22:19.334187837+03:00","level":"INFO","msg":"starting zuzu-products","env":"prod","addr":"zuzu-products:8013","log_file_path":"zuzu.log"}
+{"time":"2024-09-19T12:22:19.35363249+03:00","level":"INFO","msg":"grpc server started","addr":"[::]:8013"}
+{"time":"2024-09-19T14:10:05.045063969+03:00","level":"INFO","msg":"Gracefully stopped"}
+{"time":"2024-09-19T14:10:06.983048033+03:00","level":"INFO","msg":"Gracefully stopped"}
+{"time":"2024-09-19T14:20:16.34873309+03:00","level":"INFO","msg":"starting zuzu-order","env":"prod","addr":"zuzu-order:8012","log_file_path":"zuzu.log"}
+{"time":"2024-09-19T14:20:16.354370199+03:00","level":"INFO","msg":"grpc server started","addr":"[::]:8012"}
+{"time":"2024-09-19T14:20:18.517677713+03:00","level":"INFO","msg":"starting zuzu-products","env":"prod","addr":"zuzu-products:8013","log_file_path":"zuzu.log"}
+{"time":"2024-09-19T14:20:18.523320578+03:00","level":"INFO","msg":"grpc server started","addr":"[::]:8013"}
+{"time":"2024-09-19T14:28:27.747776015+03:00","level":"INFO","msg":"Gracefully stopped"}
+{"time":"2024-09-19T14:28:29.164524902+03:00","level":"INFO","msg":"Gracefully stopped"}
+{"time":"2024-09-19T14:28:31.343551061+03:00","level":"INFO","msg":"starting zuzu-products","env":"prod","addr":"zuzu-products:8013","log_file_path":"zuzu.log"}
+{"time":"2024-09-19T14:28:31.349751393+03:00","level":"INFO","msg":"grpc server started","addr":"[::]:8013"}
+{"time":"2024-09-19T14:28:34.645423247+03:00","level":"INFO","msg":"starting zuzu-order","env":"prod","addr":"zuzu-order:8012","log_file_path":"zuzu.log"}
+{"time":"2024-09-19T14:28:34.651124145+03:00","level":"INFO","msg":"grpc server started","addr":"[::]:8012"}

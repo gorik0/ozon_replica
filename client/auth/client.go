@@ -10,9 +10,10 @@ import (
 )
 
 func main() {
+
 	var opts []grpc.DialOption
 	opts = append(opts, grpc.WithTransportCredentials(insecure.NewCredentials()))
-	client, err := grpc.NewClient("localhost:46783", opts...)
+	client, err := grpc.NewClient("localhost:8011", opts...)
 	if err != nil {
 		panic("Failed to create client" + err.Error())
 	}

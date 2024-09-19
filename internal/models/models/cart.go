@@ -4,8 +4,6 @@ import (
 	uuid "github.com/satori/go.uuid"
 )
 
-//go:generate easyjson -all /home/scremyda/GolandProjects/2023_2_potatiki/internal/models/cart.go
-
 //easyjson:json
 type Cart struct {
 	Id        uuid.UUID     `json:"-"`

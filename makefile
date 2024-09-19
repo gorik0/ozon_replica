@@ -20,8 +20,8 @@ grpc_gen:
 
 
 run_auth:
-	AUTH_JWT_SECRET_KEY=2132 \
-  	CSRF_JWT_SECRET_KEY=12387 \
+	AUTH_JWT_SECRET_KEY=a \
+  	CSRF_JWT_SECRET_KEY=a \
   	POSTGRES_DB=postgres \
   	POSTGRES_DB=postgres \
   	DB_PORT=5432 \
@@ -30,8 +30,8 @@ run_auth:
    	go run cmd/auth/main.go
 
 run_products:
-	AUTH_JWT_SECRET_KEY=2132 \
-  	CSRF_JWT_SECRET_KEY=12387 \
+	AUTH_JWT_SECRET_KEY=a \
+  	CSRF_JWT_SECRET_KEY=a \
   	POSTGRES_DB=postgres \
   	POSTGRES_DB=postgres \
   	DB_PORT=5432 \
@@ -40,18 +40,18 @@ run_products:
    	go run cmd/products/main.go
 
 run_order:
-	AUTH_JWT_SECRET_KEY=2132 \
-  	CSRF_JWT_SECRET_KEY=12387 \
+	AUTH_JWT_SECRET_KEY=a \
+  	CSRF_JWT_SECRET_KEY=a \
   	POSTGRES_DB=postgres \
   	POSTGRES_DB=postgres \
   	DB_PORT=5432 \
-  	POSTGRES_PASSWORD=gorik \
+  	POSTGRES_PASSWORD=gorik \)
   	POSTGRES_USER=goirk \
    	go run cmd/orders/main.go
 
 run_main:
-	AUTH_JWT_SECRET_KEY=2132 \
-  	CSRF_JWT_SECRET_KEY=12387 \
+	AUTH_JWT_SECRET_KEY=a \
+  	CSRF_JWT_SECRET_KEY=a \
   	POSTGRES_DB=postgres \
   	POSTGRES_DB=postgres \
   	DB_PORT=5432 \

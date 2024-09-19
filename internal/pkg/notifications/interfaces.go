@@ -13,5 +13,5 @@ type NotificationsUsecase interface {
 }
 
 type NotificationsRepo interface {
-	ReadDayNotifications(context.Context, uuid.UUID) ([]models.Message, error)
+	ReadDayNotifications(ctx context.Context, userID uuid.UUID) ([]models.Message, error)
 }

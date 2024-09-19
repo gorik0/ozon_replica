@@ -15,6 +15,14 @@ func MustLoad() *Config {
 		log.Printf("Error loading config: %s", err)
 		os.Exit(1)
 	}
+	//var grps GRPC
+	//err = cleanenv.ReadEnv(&grps)
+	//log.Printf("GRPC :::  %v\n", grps)
+	//if err != nil {
+	//	log.Printf("Error loading config grpc: %s", err)
+	//	os.Exit(1)
+	//}
+	//cfg.GRPC = grps
 	//	::: read cfg
 	if _, err = os.Stat(cfg.ConfigPath); os.IsNotExist(err) {
 

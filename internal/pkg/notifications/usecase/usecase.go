@@ -14,7 +14,7 @@ type NotificationsUsecase struct {
 	repo notifications.NotificationsRepo
 }
 
-func NewNotificationsUsecase(repoNotifications notifications.NotificationsRepo) *NotificationsUsecase {
+func NewNotificationsUsecase(repoNotifications *repo.NotificationsRepo) *NotificationsUsecase {
 	return &NotificationsUsecase{
 		repo: repoNotifications,
 	}

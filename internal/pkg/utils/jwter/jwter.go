@@ -3,6 +3,7 @@ package jwter
 import (
 	"errors"
 	"fmt"
+	"log"
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
@@ -52,10 +53,16 @@ func (j *jwtManager) EncodeAuthToken(ID uuid.UUID) (string, time.Time, error) {
 			Issuer:    j.issuer,
 		},
 	}
+	println("CLAIMS:::::")
+	log.Println(claims)
+
 	return j.generateToken(claims)
 }
 
 func (j *jwtManager) DecodeAuthToken(tokenString string) (uuid.UUID, error) {
+	println("READY")
+	println("READY")
+	println(j.secret)
 	token, err := jwt.ParseWithClaims(tokenString, &authClaims{}, j.getKeyFunc())
 	if err != nil {
 		return uuid.UUID{}, fmt.Errorf("error happened in jwt.ParseWithClaims: %w", err)
@@ -100,10 +107,12 @@ func (j *jwtManager) DecodeCSRFToken(tokenString string) (string, error) {
 
 func (j *jwtManager) generateToken(claims jwt.Claims) (string, time.Time, error) {
 	expirationTime := time.Now().UTC().Add(j.ttl)
+	log.Println(" CLAIMS ::::: ", claims)
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-
 	tokenStr, err := token.SignedString([]byte(j.secret))
+	log.Println(" TOOOOOOKEEEN ::::: ", tokenStr)
+	println("dfdd")
 	if err != nil {
 		return "", time.Now(), err
 	}
@@ -113,10 +122,12 @@ func (j *jwtManager) generateToken(claims jwt.Claims) (string, time.Time, error)
 
 func (j *jwtManager) getKeyFunc() jwt.Keyfunc {
 	return func(token *jwt.Token) (interface{}, error) {
+		println(":::::")
+		println("secret ::::: ", j.secret)
+		println(":::::")
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
 		}
-
 		return []byte(j.secret), nil
 	}
 }

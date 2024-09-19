@@ -4,9 +4,9 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"github.com/go-park-mail-ru/2023_2_potatiki/internal/models"
 	"github.com/jackc/pgtype/pgxtype"
 	uuid "github.com/satori/go.uuid"
+	"ozon_replic/internal/models/models"
 )
 
 const (

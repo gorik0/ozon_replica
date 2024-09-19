@@ -12,45 +12,13 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
-	http7 "ozon_replic/internal/pkg/address/delivery/http"
-	addressRepo "ozon_replic/internal/pkg/address/repo"
-	usecase4 "ozon_replic/internal/pkg/address/usecase"
 	"ozon_replic/internal/pkg/auth/delivery/grpc/gen"
 	http2 "ozon_replic/internal/pkg/auth/delivery/http"
-	http3 "ozon_replic/internal/pkg/cart/delivery/http"
-	cartRepo "ozon_replic/internal/pkg/cart/repo"
-	"ozon_replic/internal/pkg/cart/usecase"
-	http6 "ozon_replic/internal/pkg/category/delivery/http"
-	repo3 "ozon_replic/internal/pkg/category/repo"
-	usecase3 "ozon_replic/internal/pkg/category/usecase"
-	http10 "ozon_replic/internal/pkg/comments/delivery/http"
-	repo4 "ozon_replic/internal/pkg/comments/repo"
-	usecase7 "ozon_replic/internal/pkg/comments/usecase"
 	"ozon_replic/internal/pkg/config"
-	hub2 "ozon_replic/internal/pkg/hub"
 	"ozon_replic/internal/pkg/middleware"
-	http12 "ozon_replic/internal/pkg/notifications/delivery/http"
-	repo6 "ozon_replic/internal/pkg/notifications/repo"
-	usecase9 "ozon_replic/internal/pkg/notifications/usecase"
-	gen3 "ozon_replic/internal/pkg/order/delivery/grpc/gen"
-	http9 "ozon_replic/internal/pkg/order/delivery/http"
-	orderRepo "ozon_replic/internal/pkg/order/repo"
-	usecase6 "ozon_replic/internal/pkg/order/usecase"
-	gen2 "ozon_replic/internal/pkg/products/delivery/grpc/gen"
-	http4 "ozon_replic/internal/pkg/products/delivery/http"
-	"ozon_replic/internal/pkg/products/repo"
-	profileHandler "ozon_replic/internal/pkg/profile/delivery/http"
-	profileRepo "ozon_replic/internal/pkg/profile/repo"
-	profileUsecase "ozon_replic/internal/pkg/profile/usecase"
-	http8 "ozon_replic/internal/pkg/promo/delivery/http"
-	promoRepo "ozon_replic/internal/pkg/promo/repo"
-	usecase5 "ozon_replic/internal/pkg/promo/usecase"
-	http11 "ozon_replic/internal/pkg/recommendations/delivery/http"
-	repo5 "ozon_replic/internal/pkg/recommendations/repo"
-	usecase8 "ozon_replic/internal/pkg/recommendations/usecase"
-	http5 "ozon_replic/internal/pkg/search/delivery/http"
-	repo2 "ozon_replic/internal/pkg/search/repo"
-	usecase2 "ozon_replic/internal/pkg/search/usecase"
+	"ozon_replic/internal/pkg/middleware/authmw"
+	"ozon_replic/internal/pkg/middleware/csrfmw"
+	"ozon_replic/internal/pkg/utils/jwter"
 	"ozon_replic/internal/pkg/utils/logger"
 	"ozon_replic/internal/pkg/utils/logger/sl"
 	"syscall"
@@ -58,6 +26,17 @@ import (
 )
 
 func main() {
+	os.Setenv("AUTH_JWT_SECRET_KEY", "a")
+	os.Setenv("CSRF_JWT_SECRET_KEY", "a")
+	os.Setenv("POSTGRES_DB", "postgres")
+	os.Setenv("DB_PORT", "5432")
+	os.Setenv("POSTGRES_PASSWORD", "gorik")
+	os.Setenv("POSTGRES_USER", "goirk")
+
+	os.Setenv("GRPC_AUTH_CONTAINER_IP", "localhost")
+	os.Setenv("GRPC_ORDER_CONTAINER_IP", "localhost")
+	os.Setenv("GRPC_PRODUCTS_CONTAINER_IP", "localhost")
+
 	if err := run(); err != nil {
 		os.Exit(1)
 	}
@@ -123,6 +102,7 @@ func run() (err error) {
 
 		return err
 	}
+	fmt.Printf("Starting auth service on port %d\n", cfg.GRPC.AuthPort)
 	defer authConn.Close()
 
 	orderConn, err := grpc.Dial(fmt.Sprintf("%s:%d", cfg.GRPC.OrderContainerIP, cfg.GRPC.OrderPort),
@@ -133,6 +113,8 @@ func run() (err error) {
 
 		return err
 	}
+	fmt.Printf("Starting order service on port %d\n", cfg.GRPC.OrderPort)
+
 	defer orderConn.Close()
 
 	productConn, err := grpc.Dial(fmt.Sprintf("%s:%d", cfg.GRPC.ProductsContainerIP, cfg.GRPC.ProductsPort),
@@ -149,55 +131,55 @@ func run() (err error) {
 	//::::::     REPO : USECASE : HANDLER : grpcCLIENT ::::::::  \\\\\\\\
 
 	//  ----profile
-	profileRepo := profileRepo.NewProfileRepo(db)
-	profileUsecase := profileUsecase.NewProfileUsecase(profileRepo, cfg)
-	profileHandler := profileHandler.NewProfileHandler(log, profileUsecase)
+	//profileRepo := profileRepo.NewProfileRepo(db)
+	//profileUsecase := profileUsecase.NewProfileUsecase(profileRepo, cfg)
+	//profileHandler := profileHandler.NewProfileHandler(log, profileUsecase)
 
 	authClient := gen.NewAuthClient(authConn)
 	authHandler := http2.NewAuthHandler(authClient, log)
-
-	cartRepo := cartRepo.NewCartRepo(db)
-	cartUsecase := usecase.NewCartUsecase(cartRepo)
-	cartHandler := http3.NewCartHandler(log, cartUsecase)
-
-	productsClient := gen2.NewProductsClient(productConn)
-	productsRepo := repo.NewProductsRepo(db)
-	productsHandler := http4.NewProductsHandler(productsClient, log)
-
-	searchRepo := repo2.NewSearchRepo(db)
-	searchUsecase := usecase2.NewSearchUsecase(searchRepo, productsRepo)
-	searchHandler := http5.NewSearchHandler(log, searchUsecase)
 	//
-	categoryRepo := repo3.NewCategoryRepo(db)
-	categoryUsecase := usecase3.NewCategoryUsecase(categoryRepo)
-	categoryHandler := http6.NewCategoryHandler(log, categoryUsecase)
+	//cartRepo := cartRepo.NewCartRepo(db)
+	//cartUsecase := usecase.NewCartUsecase(cartRepo)
+	//cartHandler := http3.NewCartHandler(log, cartUsecase)
 	//
-	addressRepo := addressRepo.NewAddressRepo(db)
-	addressUsecase := usecase4.NewAddressUsecase(addressRepo)
-	addressHandler := http7.NewAddressHandler(log, addressUsecase)
+	//productsClient := gen2.NewProductsClient(productConn)
+	//productsRepo := repo.NewProductsRepo(db)
+	//productsHandler := http4.NewProductsHandler(productsClient, log)
 	//
-	promoRepo := promoRepo.NewPromoRepo(db)
-	promoUsecase := usecase5.NewPromoUsecase(promoRepo)
-	promoHandler := http8.NewPromoHandler(log, promoUsecase)
-	//
-	//
-	orderRepo := orderRepo.NewOrderRepo(db)
-	orderUsecase := usecase6.NewOrderUsecase(orderRepo, cartRepo, addressRepo, promoRepo)
-	orderClient := gen3.NewOrderClient(orderConn)
-	orderHandler := http9.NewOrderHandler(orderClient, log, orderUsecase)
-	//
-	commentsRepo := repo4.NewCommentsRepo(db)
-	commentsUsecase := usecase7.NewCommentsUsecase(commentsRepo)
-	commentsHandler := http10.NewCommentsHandler(log, commentsUsecase)
-	//
-	recRepo := repo5.NewRecommendationsRepo(db)
-	recUsecase := usecase8.NewRecommendationsUsecase(recRepo)
-	recHandler := http11.NewRecommendationsHandler(log, recUsecase)
-	//
-	hub := hub2.NewHub(orderRepo)
-	notificationsRepo := repo6.NewNotificationsRepo(db)
-	notificationsUsecase := usecase9.NewNotificationsUsecase(notificationsRepo)
-	notificationsHandler := http12.NewNotificationsHandler(hub, notificationsUsecase, log)
+	//searchRepo := repo2.NewSearchRepo(db)
+	//searchUsecase := usecase2.NewSearchUsecase(searchRepo, productsRepo)
+	//searchHandler := http5.NewSearchHandler(log, searchUsecase)
+	////
+	//categoryRepo := repo3.NewCategoryRepo(db)
+	//categoryUsecase := usecase3.NewCategoryUsecase(categoryRepo)
+	//categoryHandler := http6.NewCategoryHandler(log, categoryUsecase)
+	////
+	//addressRepo := addressRepo.NewAddressRepo(db)
+	//addressUsecase := usecase4.NewAddressUsecase(addressRepo)
+	//addressHandler := http7.NewAddressHandler(log, addressUsecase)
+	////
+	//promoRepo := promoRepo.NewPromoRepo(db)
+	//promoUsecase := usecase5.NewPromoUsecase(promoRepo)
+	//promoHandler := http8.NewPromoHandler(log, promoUsecase)
+	////
+	////
+	//orderRepo := orderRepo.NewOrderRepo(db)
+	//orderUsecase := usecase6.NewOrderUsecase(orderRepo, cartRepo, addressRepo, promoRepo)
+	//orderClient := gen3.NewOrderClient(orderConn)
+	//orderHandler := http9.NewOrderHandler(orderClient, log, orderUsecase)
+	////
+	//commentsRepo := repo4.NewCommentsRepo(db)
+	//commentsUsecase := usecase7.NewCommentsUsecase(commentsRepo)
+	//commentsHandler := http10.NewCommentsHandler(log, commentsUsecase)
+	////
+	//recRepo := repo5.NewRecommendationsRepo(db)
+	//recUsecase := usecase8.NewRecommendationsUsecase(recRepo)
+	//recHandler := http11.NewRecommendationsHandler(log, recUsecase)
+	////
+	//hub := hub2.NewHub(orderRepo)
+	//notificationsRepo := repo6.NewNotificationsRepo(db)
+	//notificationsUsecase := usecase9.NewNotificationsUsecase(notificationsRepo)
+	//notificationsHandler := http12.NewNotificationsHandler(hub, notificationsUsecase, log)
 
 	//::::::     REPO : USECASE : HANDLER : grpcCLIENT   ::::::: \\\\\\\
 
@@ -222,6 +204,23 @@ func run() (err error) {
 
 	// ::::::; endPOINTS ;::::::\\\\\\\
 
+	authMW := authmw.New(log, jwter.New(cfg.AuthJWT))
+	csrfMW := csrfmw.New(log, jwter.New(cfg.CSRFJWT))
+
+	auth := r.PathPrefix("/auth").Subrouter()
+	{
+		auth.Handle("/signup", csrfMW(http.HandlerFunc(authHandler.SignUp))).
+			Methods(http.MethodPost, http.MethodGet, http.MethodOptions)
+
+		auth.Handle("/signin", csrfMW(http.HandlerFunc(authHandler.SignIn))).
+			Methods(http.MethodPost, http.MethodGet, http.MethodOptions)
+
+		auth.Handle("/logout", authMW(http.HandlerFunc(authHandler.LogOut))).
+			Methods(http.MethodGet, http.MethodOptions)
+
+		auth.Handle("/check_auth", authMW(http.HandlerFunc(authHandler.CheckAuth))).
+			Methods(http.MethodGet, http.MethodOptions)
+	}
 	// ::::::; endPOINTS ;::::::\\\\\\\
 
 	// ::::::; make SERVER;::::::\\\\\\\

@@ -29,7 +29,6 @@ func New(log *slog.Logger, jwtCORS jwter.JWTer) mux.MiddlewareFunc {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
 			if contains(safeMethods, r.Method) {
-
 				token, _, err := jwtCORS.EncodeCSRFToken(r.UserAgent())
 				if err != nil {
 					log.Error("error happened in Auther.GenerateToken", sl.Err(err))
@@ -44,6 +43,7 @@ func New(log *slog.Logger, jwtCORS jwter.JWTer) mux.MiddlewareFunc {
 
 			token := r.Header.Get(HEADER_NAME)
 
+			println("TOKEN :::: ", token)
 			if token == "" {
 				log.Error("miss csrf jwt")
 				resp.JSONStatus(w, http.StatusForbidden)

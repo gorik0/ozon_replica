@@ -5,9 +5,8 @@ import (
 	"io"
 	"log/slog"
 	"net/http"
+	"ozon_replic/internal/pkg/utils/logger/sl"
 	"strconv"
-
-	"github.com/go-park-mail-ru/2023_2_potatiki/internal/pkg/utils/logger/sl"
 )
 
 const (
