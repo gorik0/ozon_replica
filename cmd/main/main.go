@@ -41,6 +41,9 @@ import (
 	http8 "ozon_replic/internal/pkg/promo/delivery/http"
 	promoRepo "ozon_replic/internal/pkg/promo/repo"
 	usecase5 "ozon_replic/internal/pkg/promo/usecase"
+	http11 "ozon_replic/internal/pkg/recommendations/delivery/http"
+	repo5 "ozon_replic/internal/pkg/recommendations/repo"
+	usecase8 "ozon_replic/internal/pkg/recommendations/usecase"
 	http5 "ozon_replic/internal/pkg/search/delivery/http"
 	repo2 "ozon_replic/internal/pkg/search/repo"
 	usecase2 "ozon_replic/internal/pkg/search/usecase"
@@ -183,9 +186,9 @@ func run() (err error) {
 	commentsUsecase := usecase7.NewCommentsUsecase(commentsRepo)
 	commentsHandler := http10.NewCommentsHandler(log, commentsUsecase)
 	//
-	//recRepo := recRepo.NewRecommendationsRepo(db)
-	//recUsecase := recUsecase.NewRecommendationsUsecase(recRepo)
-	//recHandler := recHandler.NewRecommendationsHandler(log, recUsecase)
+	recRepo := repo5.NewRecommendationsRepo(db)
+	recUsecase := usecase8.NewRecommendationsUsecase(recRepo)
+	recHandler := http11.NewRecommendationsHandler(log, recUsecase)
 	//
 	//hub := clientHub.NewHub(orderRepo)
 	//notificationsRepo := notificationsRepo.NewNotificationsRepo(db)
