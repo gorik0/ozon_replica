@@ -18,6 +18,9 @@ import (
 	"ozon_replic/internal/pkg/middleware"
 	"ozon_replic/internal/pkg/middleware/authmw"
 	"ozon_replic/internal/pkg/middleware/csrfmw"
+	http3 "ozon_replic/internal/pkg/profile/delivery/http"
+	"ozon_replic/internal/pkg/profile/repo"
+	"ozon_replic/internal/pkg/profile/usecase"
 	"ozon_replic/internal/pkg/utils/jwter"
 	"ozon_replic/internal/pkg/utils/logger"
 	"ozon_replic/internal/pkg/utils/logger/sl"
@@ -131,9 +134,9 @@ func run() (err error) {
 	//::::::     REPO : USECASE : HANDLER : grpcCLIENT ::::::::  \\\\\\\\
 
 	//  ----profile
-	//profileRepo := profileRepo.NewProfileRepo(db)
-	//profileUsecase := profileUsecase.NewProfileUsecase(profileRepo, cfg)
-	//profileHandler := profileHandler.NewProfileHandler(log, profileUsecase)
+	profileRepo := repo.NewProfileRepo(db)
+	profileUsecase := usecase.NewProfileUsecase(profileRepo, cfg)
+	profileHandler := http3.NewProfileHandler(log, profileUsecase)
 
 	authClient := gen.NewAuthClient(authConn)
 	authHandler := http2.NewAuthHandler(authClient, log)
@@ -221,6 +224,19 @@ func run() (err error) {
 		auth.Handle("/check_auth", authMW(http.HandlerFunc(authHandler.CheckAuth))).
 			Methods(http.MethodGet, http.MethodOptions)
 	}
+
+	profile := r.PathPrefix("/profile").Subrouter()
+	{
+		profile.HandleFunc("/{id:[0-9a-fA-F-]+}", profileHandler.GetProfile).
+			Methods(http.MethodGet, http.MethodOptions)
+
+		profile.Handle("/update-photo", authMW(csrfMW(http.HandlerFunc(profileHandler.UpdatePhoto)))).
+			Methods(http.MethodPost, http.MethodGet, http.MethodOptions)
+
+		profile.Handle("/update-data", authMW(csrfMW(http.HandlerFunc(profileHandler.UpdateProfileData)))).
+			Methods(http.MethodPost, http.MethodGet, http.MethodOptions)
+	}
+
 	// ::::::; endPOINTS ;::::::\\\\\\\
 
 	// ::::::; make SERVER;::::::\\\\\\\
