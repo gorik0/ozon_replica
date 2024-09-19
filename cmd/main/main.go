@@ -23,6 +23,9 @@ import (
 	http6 "ozon_replic/internal/pkg/category/delivery/http"
 	repo3 "ozon_replic/internal/pkg/category/repo"
 	usecase3 "ozon_replic/internal/pkg/category/usecase"
+	http10 "ozon_replic/internal/pkg/comments/delivery/http"
+	repo4 "ozon_replic/internal/pkg/comments/repo"
+	usecase7 "ozon_replic/internal/pkg/comments/usecase"
 	"ozon_replic/internal/pkg/config"
 	"ozon_replic/internal/pkg/middleware"
 	gen3 "ozon_replic/internal/pkg/order/delivery/grpc/gen"
@@ -176,9 +179,9 @@ func run() (err error) {
 	orderClient := gen3.NewOrderClient(orderConn)
 	orderHandler := http9.NewOrderHandler(orderClient, log, orderUsecase)
 	//
-	//commentsRepo := commentsRepo.NewCommentsRepo(db)
-	//commentsUsecase := commentsUsecase.NewCommentsUsecase(commentsRepo)
-	//commentsHandler := commentsHandler.NewCommentsHandler(log, commentsUsecase)
+	commentsRepo := repo4.NewCommentsRepo(db)
+	commentsUsecase := usecase7.NewCommentsUsecase(commentsRepo)
+	commentsHandler := http10.NewCommentsHandler(log, commentsUsecase)
 	//
 	//recRepo := recRepo.NewRecommendationsRepo(db)
 	//recUsecase := recUsecase.NewRecommendationsUsecase(recRepo)
