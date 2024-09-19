@@ -272,3 +272,19 @@
 {"time":"2024-09-19T15:27:06.29098198+03:00","level":"INFO","msg":"got profile id","profile id":"b47a82c5-a0fc-4c67-b9e4-fc2232650666"}
 {"time":"2024-09-19T15:27:07.913694665+03:00","level":"INFO","msg":"UpdatePhoto","op":"http.(*ProfileHandler).UpdatePhoto","request_id":"","op":"http.(*ProfileHandler).UpdatePhoto","request_id":"","ID":"b47a82c5-a0fc-4c67-b9e4-fc2232650666"}
 {"time":"2024-09-19T15:27:08.105832127+03:00","level":"INFO","msg":"updated profile success","op":"http.(*ProfileHandler).UpdatePhoto","request_id":"","op":"http.(*ProfileHandler).UpdatePhoto","request_id":""}
+{"time":"2024-09-19T15:33:25.55077235+03:00","level":"INFO","msg":"got profile id","profile id":"b47a82c5-a0fc-4c67-b9e4-fc2232650666"}
+{"time":"2024-09-19T15:33:25.550963627+03:00","level":"ERROR","msg":"miss csrf jwt"}
+{"time":"2024-09-19T15:34:43.432574643+03:00","level":"INFO","msg":"got profile id","profile id":"b47a82c5-a0fc-4c67-b9e4-fc2232650666"}
+{"time":"2024-09-19T15:35:22.193794253+03:00","level":"INFO","msg":"updated profile info","op":"http.(*ProfileHandler).UpdatePhoto","request_id":"","op":"http.(*ProfileHandler).UpdatePhoto","request_id":"","op":"http.(*ProfileHandler).UpdateProfileData","request_id":""}
+{"time":"2024-09-19T15:35:29.008411587+03:00","level":"INFO","msg":"got profile id","profile id":"b47a82c5-a0fc-4c67-b9e4-fc2232650666"}
+{"time":"2024-09-19T15:35:30.660828159+03:00","level":"INFO","msg":"updated profile info","op":"http.(*ProfileHandler).UpdatePhoto","request_id":"","op":"http.(*ProfileHandler).UpdatePhoto","request_id":"","op":"http.(*ProfileHandler).UpdateProfileData","request_id":"","op":"http.(*ProfileHandler).UpdateProfileData","request_id":""}
+{"time":"2024-09-19T15:35:41.825761849+03:00","level":"INFO","msg":"got profile id","profile id":"b47a82c5-a0fc-4c67-b9e4-fc2232650666"}
+{"time":"2024-09-19T15:35:43.879668843+03:00","level":"INFO","msg":"updated profile info","op":"http.(*ProfileHandler).UpdatePhoto","request_id":"","op":"http.(*ProfileHandler).UpdatePhoto","request_id":"","op":"http.(*ProfileHandler).UpdateProfileData","request_id":"","op":"http.(*ProfileHandler).UpdateProfileData","request_id":"","op":"http.(*ProfileHandler).UpdateProfileData","request_id":""}
+{"time":"2024-09-19T15:35:59.916622285+03:00","level":"INFO","msg":"got profile id","profile id":"b47a82c5-a0fc-4c67-b9e4-fc2232650666"}
+{"time":"2024-09-19T15:36:26.403676061+03:00","level":"INFO","msg":"updated profile info","op":"http.(*ProfileHandler).UpdatePhoto","request_id":"","op":"http.(*ProfileHandler).UpdatePhoto","request_id":"","op":"http.(*ProfileHandler).UpdateProfileData","request_id":"","op":"http.(*ProfileHandler).UpdateProfileData","request_id":"","op":"http.(*ProfileHandler).UpdateProfileData","request_id":"","op":"http.(*ProfileHandler).UpdateProfileData","request_id":""}
+{"time":"2024-09-19T15:36:27.985038006+03:00","level":"INFO","msg":"got profile id","profile id":"b47a82c5-a0fc-4c67-b9e4-fc2232650666"}
+{"time":"2024-09-19T15:37:25.39722958+03:00","level":"INFO","msg":"starting zuzu-main","env":"prod","addr":"0.0.0.0:8096","log_file_path":"zuzu.log","photos_file_path":"photos/"}
+{"time":"2024-09-19T15:37:25.434128488+03:00","level":"INFO","msg":"server started"}
+{"time":"2024-09-19T15:37:27.81435231+03:00","level":"INFO","msg":"got profile id","profile id":"b47a82c5-a0fc-4c67-b9e4-fc2232650666"}
+{"time":"2024-09-19T15:37:32.249151751+03:00","level":"INFO","msg":"updated profile info","op":"http.(*ProfileHandler).UpdateProfileData","request_id":""}
+{"time":"2024-09-19T15:38:04.223123878+03:00","level":"INFO","msg":"got profile id","profile id":"b47a82c5-a0fc-4c67-b9e4-fc2232650666"}
