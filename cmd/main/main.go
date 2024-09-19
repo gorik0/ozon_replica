@@ -27,7 +27,11 @@ import (
 	repo4 "ozon_replic/internal/pkg/comments/repo"
 	usecase7 "ozon_replic/internal/pkg/comments/usecase"
 	"ozon_replic/internal/pkg/config"
+	hub2 "ozon_replic/internal/pkg/hub"
 	"ozon_replic/internal/pkg/middleware"
+	http12 "ozon_replic/internal/pkg/notifications/delivery/http"
+	repo6 "ozon_replic/internal/pkg/notifications/repo"
+	usecase9 "ozon_replic/internal/pkg/notifications/usecase"
 	gen3 "ozon_replic/internal/pkg/order/delivery/grpc/gen"
 	http9 "ozon_replic/internal/pkg/order/delivery/http"
 	orderRepo "ozon_replic/internal/pkg/order/repo"
@@ -190,10 +194,10 @@ func run() (err error) {
 	recUsecase := usecase8.NewRecommendationsUsecase(recRepo)
 	recHandler := http11.NewRecommendationsHandler(log, recUsecase)
 	//
-	//hub := clientHub.NewHub(orderRepo)
-	//notificationsRepo := notificationsRepo.NewNotificationsRepo(db)
-	//notificationsUsecase := notificationsUsecase.NewNotificationsUsecase(notificationsRepo)
-	//notificationsHandler := notificationsHandler.NewNotificationsHandler(hub, notificationsUsecase, log)
+	hub := hub2.NewHub(orderRepo)
+	notificationsRepo := repo6.NewNotificationsRepo(db)
+	notificationsUsecase := usecase9.NewNotificationsUsecase(notificationsRepo)
+	notificationsHandler := http12.NewNotificationsHandler(hub, notificationsUsecase, log)
 
 	//::::::     REPO : USECASE : HANDLER : grpcCLIENT   ::::::: \\\\\\\
 
