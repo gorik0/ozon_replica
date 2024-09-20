@@ -6,18 +6,25 @@ import (
 	"fmt"
 	"github.com/gorilla/mux"
 	"github.com/jackc/pgx/v4/pgxpool"
+	httpSwagger "github.com/swaggo/http-swagger"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 	"log/slog"
 	"net/http"
 	"os"
 	"os/signal"
+	_ "ozon_replic/docs"
 	"ozon_replic/internal/pkg/auth/delivery/grpc/gen"
 	http2 "ozon_replic/internal/pkg/auth/delivery/http"
+	http4 "ozon_replic/internal/pkg/cart/delivery/http"
+	cartRepo "ozon_replic/internal/pkg/cart/repo"
+	usecase2 "ozon_replic/internal/pkg/cart/usecase"
 	"ozon_replic/internal/pkg/config"
 	"ozon_replic/internal/pkg/middleware"
 	"ozon_replic/internal/pkg/middleware/authmw"
 	"ozon_replic/internal/pkg/middleware/csrfmw"
+	gen2 "ozon_replic/internal/pkg/products/delivery/grpc/gen"
+	http5 "ozon_replic/internal/pkg/products/delivery/http"
 	http3 "ozon_replic/internal/pkg/profile/delivery/http"
 	"ozon_replic/internal/pkg/profile/repo"
 	"ozon_replic/internal/pkg/profile/usecase"
@@ -28,6 +35,15 @@ import (
 	"time"
 )
 
+// @title ZuZu Backend API
+// @description API server for ZuZu.
+
+// @contact.name Dima
+// @contact.url http://t.me/belozerovmsk
+
+// @securityDefinitions	AuthKey
+// @in					header
+// @name				Authorization
 func main() {
 	os.Setenv("AUTH_JWT_SECRET_KEY", "a")
 	os.Setenv("CSRF_JWT_SECRET_KEY", "a")
@@ -129,6 +145,7 @@ func run() (err error) {
 		return err
 	}
 	defer productConn.Close()
+
 	// :::: -.-.-.-.-.-.-. MAKE CONNECT FOR GRPC (auth, order, product)
 
 	//::::::     REPO : USECASE : HANDLER : grpcCLIENT ::::::::  \\\\\\\\
@@ -141,14 +158,14 @@ func run() (err error) {
 	authClient := gen.NewAuthClient(authConn)
 	authHandler := http2.NewAuthHandler(authClient, log)
 	//
-	//cartRepo := cartRepo.NewCartRepo(db)
-	//cartUsecase := usecase.NewCartUsecase(cartRepo)
-	//cartHandler := http3.NewCartHandler(log, cartUsecase)
-	//
-	//productsClient := gen2.NewProductsClient(productConn)
-	//productsRepo := repo.NewProductsRepo(db)
-	//productsHandler := http4.NewProductsHandler(productsClient, log)
-	//
+	cartRepo := cartRepo.NewCartRepo(db)
+	cartUsecase := usecase2.NewCartUsecase(cartRepo)
+	cartHandler := http4.NewCartHandler(log, cartUsecase)
+
+	productsClient := gen2.NewProductsClient(productConn)
+	//productsRepo := repo.NewProfileRepo(db)
+	productsHandler := http5.NewProductsHandler(productsClient, log)
+
 	//searchRepo := repo2.NewSearchRepo(db)
 	//searchUsecase := usecase2.NewSearchUsecase(searchRepo, productsRepo)
 	//searchHandler := http5.NewSearchHandler(log, searchUsecase)
@@ -199,11 +216,11 @@ func run() (err error) {
 
 	//r.PathPrefix("/metrics").Handler(promhttp.Handler())
 	//
-	//r.PathPrefix("/swagger/").Handler(httpSwagger.Handler(
-	//	httpSwagger.DeepLinking(true),
-	//	httpSwagger.DocExpansion("none"),
-	//	httpSwagger.DomID("swagger-ui"),
-	//)).Methods(http.MethodGet)
+	r.PathPrefix("/swagger/").Handler(httpSwagger.Handler(
+		httpSwagger.DeepLinking(true),
+		httpSwagger.DocExpansion("none"),
+		httpSwagger.DomID("swagger-ui"),
+	)).Methods(http.MethodGet)
 
 	// ::::::; endPOINTS ;::::::\\\\\\\
 
@@ -237,6 +254,32 @@ func run() (err error) {
 			Methods(http.MethodPost, http.MethodGet, http.MethodOptions)
 	}
 
+	cart := r.PathPrefix("/cart").Subrouter()
+	{
+		cart.Handle("/update", authMW(http.HandlerFunc(cartHandler.UpdateCart))).
+			Methods(http.MethodPost, http.MethodOptions)
+
+		cart.Handle("/summary", authMW(http.HandlerFunc(cartHandler.GetCart))).
+			Methods(http.MethodGet, http.MethodOptions)
+
+		cart.Handle("/add_product", authMW(http.HandlerFunc(cartHandler.AddProduct))).
+			Methods(http.MethodPost, http.MethodOptions)
+
+		cart.Handle("/delete_product", authMW(http.HandlerFunc(cartHandler.DeleteProduct))).
+			Methods(http.MethodDelete, http.MethodOptions)
+	}
+
+	products := r.PathPrefix("/products").Subrouter()
+	{
+		products.HandleFunc("/{id:[0-9a-fA-F-]+}", productsHandler.Product).
+			Methods(http.MethodGet, http.MethodOptions)
+
+		products.HandleFunc("/get_all", productsHandler.Products).
+			Methods(http.MethodGet, http.MethodOptions)
+
+		products.HandleFunc("/category", productsHandler.Category).
+			Methods(http.MethodGet, http.MethodOptions)
+	}
 	// ::::::; endPOINTS ;::::::\\\\\\\
 
 	// ::::::; make SERVER;::::::\\\\\\\

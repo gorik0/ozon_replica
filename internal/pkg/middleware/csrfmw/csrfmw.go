@@ -22,7 +22,7 @@ func contains(vals []string, s string) bool {
 
 var safeMethods = []string{"GET", "HEAD", "OPTIONS", "TRACE"}
 
-const HEADER_NAME = "X-CSRF-Token"
+const HeaderName = "X-CSRF-Token"
 
 func New(log *slog.Logger, jwtCORS jwter.JWTer) mux.MiddlewareFunc {
 	return func(next http.Handler) http.Handler { // TODO: del
@@ -36,12 +36,12 @@ func New(log *slog.Logger, jwtCORS jwter.JWTer) mux.MiddlewareFunc {
 
 					return
 				}
-				w.Header().Set(HEADER_NAME, token)
+				w.Header().Set(HeaderName, token)
 
 				return
 			}
 
-			token := r.Header.Get(HEADER_NAME)
+			token := r.Header.Get(HeaderName)
 
 			println("TOKEN :::: ", token)
 			if token == "" {

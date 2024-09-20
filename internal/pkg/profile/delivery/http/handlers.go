@@ -6,6 +6,7 @@ import (
 	"github.com/gorilla/mux"
 	uuid "github.com/satori/go.uuid"
 	"io"
+	"log"
 	"log/slog"
 	"net/http"
 	"ozon_replic/internal/models/models"
@@ -164,6 +165,12 @@ func (h *ProfileHandler) UpdatePhoto(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 
 	bodyContent, err := io.ReadAll(limitedReader)
+	println("BODY ::::")
+	println("BODY ::::")
+	println("BODY ::::")
+	log.Printf("%x", bodyContent[:512])
+	println(" ::::")
+	println(" ::::")
 	fileFormat := http.DetectContentType(bodyContent)
 	h.log.Debug("got []byte file", slog.Any("request", r))
 

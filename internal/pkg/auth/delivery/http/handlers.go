@@ -31,12 +31,26 @@ func NewAuthHandler(cl gen.AuthClient, log *slog.Logger) *AuthHandler {
 	}
 }
 
+// @Summary	SignIn(get)
+// @Tags Auth
+// @Description	Login to Account
+// @Produce json
+// @Success	200	{object} models.Profile "Profile"
+// @Failure	400	{object} responser.response	"error messege"
+// @Failure	429
+// @Router	/api/auth/signin [get]
+func foo() {
+
+}
+
 // @Summary	SignIn
 // @Tags Auth
 // @Description	Login to Account
 // @Accept json
 // @Produce json
 // @Param input body models.SignInPayload true "SignInPayload"
+// @Param X-CSRF-Token header string true "X-CSRF-Token"
+// @Param Cookie header string true "Cookie"
 // @Success	200	{object} models.Profile "Profile"
 // @Failure	400	{object} responser.response	"error messege"
 // @Failure	429
@@ -109,6 +123,8 @@ func (h *AuthHandler) SignIn(w http.ResponseWriter, r *http.Request) {
 // @Accept json
 // @Produce json
 // @Param input body models.SignUpPayload true "SignUpPayload"
+// @Param X-CSRF-Token header string true "X-CSRF-Token"
+// @Param Cookie header string true "Cookie"
 // @Success	200 {object} models.Profile "Profile"
 // @Failure	400	{object} responser.response	"error messege"
 // @Failure	429
@@ -195,11 +211,12 @@ func (h *AuthHandler) LogOut(w http.ResponseWriter, r *http.Request) {
 // @Description	Check user is logged in
 // @Accept json
 // @Produce json
+// @Param X-CSRF-Token header string true "X-CSRF-Token"
+// @Param Cookie header string true "Cookie"
 // @Success	200	{object} models.Profile "Profile"
 // @Failure	401
 // @Failure	429
 // @security AuthKey
-// @Param Cookie header string  false "Token" default(zuzu-t=xxx)
 // @Router	/api/auth/check_auth [get]
 func (h *AuthHandler) CheckAuth(w http.ResponseWriter, r *http.Request) {
 	h.log = h.log.With(

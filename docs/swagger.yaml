@@ -1,0 +1,1307 @@
+definitions:
+  models.Address:
+    properties:
+      addressId:
+        type: string
+      addressIsCurrent:
+        type: boolean
+      city:
+        type: string
+      flat:
+        type: string
+      house:
+        type: string
+      street:
+        type: string
+    type: object
+  models.AddressDelete:
+    properties:
+      addressId:
+        type: string
+    type: object
+  models.AddressMakeCurrent:
+    properties:
+      addressId:
+        type: string
+    type: object
+  models.AddressPayload:
+    properties:
+      city:
+        maxLength: 32
+        type: string
+      flat:
+        maxLength: 32
+        type: string
+      house:
+        maxLength: 32
+        type: string
+      street:
+        maxLength: 32
+        type: string
+    type: object
+  models.Cart:
+    properties:
+      products:
+        items:
+          $ref: '#/definitions/models.CartProduct'
+        type: array
+    type: object
+  models.CartProduct:
+    properties:
+      category:
+        $ref: '#/definitions/models.Category'
+      countComments:
+        type: integer
+      description:
+        type: string
+      img:
+        type: string
+      price:
+        type: integer
+      productId:
+        type: string
+      productName:
+        type: string
+      quantity:
+        type: integer
+      rating:
+        type: number
+    type: object
+  models.CartProductDelete:
+    properties:
+      productId:
+        type: string
+    type: object
+  models.CartProductUpdate:
+    properties:
+      productId:
+        type: string
+      quantity:
+        type: integer
+    type: object
+  models.CartUpdate:
+    properties:
+      productsInfo:
+        items:
+          $ref: '#/definitions/models.CartProductUpdate'
+        type: array
+    type: object
+  models.Category:
+    properties:
+      categoryId:
+        type: integer
+      categoryName:
+        type: string
+      categoryParent:
+        type: integer
+    type: object
+  models.CategoryStatistic:
+    properties:
+      activityPoints:
+        type: integer
+      categoryId:
+        type: integer
+    type: object
+  models.Comment:
+    properties:
+      comment:
+        type: string
+      cons:
+        type: string
+      creationDate:
+        type: string
+      id:
+        type: string
+      productId:
+        type: string
+      pros:
+        type: string
+      rating:
+        type: integer
+      userName:
+        type: string
+    type: object
+  models.CommentPayload:
+    properties:
+      comment:
+        maxLength: 400
+        type: string
+      cons:
+        maxLength: 400
+        type: string
+      productId:
+        type: string
+      pros:
+        maxLength: 400
+        type: string
+      rating:
+        minimum: 1
+        type: integer
+    type: object
+  models.Message:
+    properties:
+      created:
+        type: string
+      messageInfo:
+        type: string
+      orderID:
+        type: string
+      type:
+        type: string
+      userID:
+        type: string
+    type: object
+  models.Order:
+    properties:
+      _:
+        type: integer
+      address:
+        $ref: '#/definitions/models.Address'
+      creationDate:
+        type: string
+      deliveryDate:
+        type: string
+      deliveryTime:
+        type: string
+      id:
+        type: string
+      products:
+        items:
+          $ref: '#/definitions/models.OrderProduct'
+        type: array
+      promocodeName:
+        type: string
+      status:
+        type: string
+    type: object
+  models.OrderInfo:
+    properties:
+      deliveryDate:
+        type: string
+      deliveryTime:
+        type: string
+      promocodeName:
+        type: string
+    type: object
+  models.OrderProduct:
+    properties:
+      category:
+        $ref: '#/definitions/models.Category'
+      countComments:
+        type: integer
+      description:
+        type: string
+      img:
+        type: string
+      price:
+        type: integer
+      productId:
+        type: string
+      productName:
+        type: string
+      quantity:
+        type: integer
+      rating:
+        type: number
+    type: object
+  models.Product:
+    properties:
+      category:
+        $ref: '#/definitions/models.Category'
+      countComments:
+        type: integer
+      description:
+        type: string
+      img:
+        type: string
+      price:
+        type: integer
+      productId:
+        type: string
+      productName:
+        type: string
+      rating:
+        type: number
+    type: object
+  models.ProductStatistic:
+    properties:
+      activityPoints:
+        type: integer
+      isBought:
+        type: boolean
+      isReviewed:
+        type: boolean
+      productId:
+        type: string
+    type: object
+  models.Profile:
+    properties:
+      description:
+        type: string
+      id:
+        type: string
+      img:
+        type: string
+      login:
+        type: string
+      phone:
+        type: string
+    type: object
+  models.Promocode:
+    properties:
+      discount:
+        type: integer
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  models.SignInPayload:
+    properties:
+      login:
+        maxLength: 30
+        minLength: 6
+        type: string
+      password:
+        maxLength: 32
+        minLength: 8
+        type: string
+    required:
+    - login
+    - password
+    type: object
+  models.SignUpPayload:
+    properties:
+      login:
+        maxLength: 30
+        minLength: 6
+        type: string
+      password:
+        maxLength: 32
+        minLength: 8
+        type: string
+      phone:
+        type: string
+    required:
+    - login
+    - password
+    - phone
+    type: object
+  models.UpdateProfileDataPayload:
+    properties:
+      passwords:
+        properties:
+          newPass:
+            maxLength: 32
+            minLength: 8
+            type: string
+          oldPass:
+            maxLength: 32
+            minLength: 8
+            type: string
+        type: object
+      phone:
+        type: string
+    type: object
+  models.UserActivity:
+    properties:
+      category:
+        items:
+          $ref: '#/definitions/models.CategoryStatistic'
+        type: array
+      product:
+        items:
+          $ref: '#/definitions/models.ProductStatistic'
+        type: array
+    type: object
+  responser.response:
+    properties:
+      error: {}
+      status:
+        type: string
+    type: object
+info:
+  contact:
+    name: Dima
+    url: http://t.me/belozerovmsk
+  description: API server for ZuZu.
+  title: ZuZu Backend API
+paths:
+  /api/address/add:
+    post:
+      consumes:
+      - application/json
+      description: Add Address
+      parameters:
+      - description: Address info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/models.AddressPayload'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Address full info
+          schema:
+            $ref: '#/definitions/models.Address'
+        "401":
+          description: User unauthorized
+        "429":
+          description: Too Many Requests
+      summary: AddAddress
+      tags:
+      - Address
+  /api/address/delete:
+    delete:
+      consumes:
+      - application/json
+      description: Delete Address
+      parameters:
+      - description: Address ID
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/models.AddressDelete'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Address deleted info
+        "401":
+          description: User unauthorized
+        "404":
+          description: Can`t delete current address
+        "429":
+          description: Too Many Requests
+      summary: DeleteAddress
+      tags:
+      - Address
+  /api/address/get_all:
+    get:
+      consumes:
+      - application/json
+      description: Get All Addresses
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Address full info
+          schema:
+            items:
+              $ref: '#/definitions/models.Address'
+            type: array
+        "401":
+          description: User unauthorized
+        "404":
+          description: Addresses not found
+        "429":
+          description: Too Many Requests
+      summary: GetAllAddresses
+      tags:
+      - Address
+  /api/address/get_current:
+    get:
+      consumes:
+      - application/json
+      description: Get Current Address
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Address full info
+          schema:
+            $ref: '#/definitions/models.Address'
+        "401":
+          description: User unauthorized
+        "404":
+          description: Address not found
+        "429":
+          description: Too Many Requests
+      summary: GetCurrentAddress
+      tags:
+      - Address
+  /api/address/make_current:
+    post:
+      consumes:
+      - application/json
+      description: Make Current Address
+      parameters:
+      - description: Address ID
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/models.AddressMakeCurrent'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Address is made current
+        "401":
+          description: User unauthorized
+        "404":
+          description: Address not found
+        "429":
+          description: Too Many Requests
+      summary: MakeCurrentAddress
+      tags:
+      - Address
+  /api/address/update:
+    post:
+      consumes:
+      - application/json
+      description: Update Address
+      parameters:
+      - description: Address info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/models.Address'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Address info
+          schema:
+            $ref: '#/definitions/models.Address'
+        "401":
+          description: User unauthorized
+        "404":
+          description: Address not found
+        "429":
+          description: Too Many Requests
+      summary: UpdateAddress
+      tags:
+      - Address
+  /api/auth/check_auth:
+    get:
+      consumes:
+      - application/json
+      description: Check user is logged in
+      parameters:
+      - description: X-CSRF-Token
+        in: header
+        name: X-CSRF-Token
+        required: true
+        type: string
+      - description: Cookie
+        in: header
+        name: Cookie
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Profile
+          schema:
+            $ref: '#/definitions/models.Profile'
+        "401":
+          description: Unauthorized
+        "429":
+          description: Too Many Requests
+      security:
+      - AuthKey: []
+      summary: CheckAuth
+      tags:
+      - Auth
+  /api/auth/logout:
+    get:
+      consumes:
+      - application/json
+      description: Logout from Account
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+      summary: Logout
+      tags:
+      - Auth
+  /api/auth/signin:
+    get:
+      description: Login to Account
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Profile
+          schema:
+            $ref: '#/definitions/models.Profile'
+        "400":
+          description: error messege
+          schema:
+            $ref: '#/definitions/responser.response'
+        "429":
+          description: Too Many Requests
+      summary: SignIn(get)
+      tags:
+      - Auth
+    post:
+      consumes:
+      - application/json
+      description: Login to Account
+      parameters:
+      - description: SignInPayload
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/models.SignInPayload'
+      - description: X-CSRF-Token
+        in: header
+        name: X-CSRF-Token
+        required: true
+        type: string
+      - description: Cookie
+        in: header
+        name: Cookie
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Profile
+          schema:
+            $ref: '#/definitions/models.Profile'
+        "400":
+          description: error messege
+          schema:
+            $ref: '#/definitions/responser.response'
+        "429":
+          description: Too Many Requests
+      summary: SignIn
+      tags:
+      - Auth
+  /api/auth/signup:
+    post:
+      consumes:
+      - application/json
+      description: Create Account
+      parameters:
+      - description: SignUpPayload
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/models.SignUpPayload'
+      - description: X-CSRF-Token
+        in: header
+        name: X-CSRF-Token
+        required: true
+        type: string
+      - description: Cookie
+        in: header
+        name: Cookie
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Profile
+          schema:
+            $ref: '#/definitions/models.Profile'
+        "400":
+          description: error messege
+          schema:
+            $ref: '#/definitions/responser.response'
+        "429":
+          description: Too Many Requests
+      summary: SignUp
+      tags:
+      - Auth
+  /api/cart/add_product:
+    post:
+      consumes:
+      - application/json
+      description: add product to cart or change its number
+      parameters:
+      - description: product info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/models.CartProductUpdate'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: cart info
+          schema:
+            $ref: '#/definitions/models.Cart'
+        "400":
+          description: error message
+          schema:
+            $ref: '#/definitions/responser.response'
+        "401":
+          description: Unauthorized
+        "429":
+          description: Too Many Requests
+      summary: AddProduct
+      tags:
+      - Cart
+  /api/cart/delete_product:
+    delete:
+      consumes:
+      - application/json
+      description: delete product from cart
+      parameters:
+      - description: product info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/models.CartProductDelete'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: cart info
+          schema:
+            $ref: '#/definitions/models.Cart'
+        "400":
+          description: error message
+          schema:
+            $ref: '#/definitions/responser.response'
+        "401":
+          description: Unauthorized
+        "429":
+          description: Too Many Requests
+      summary: DeleteProduct
+      tags:
+      - Cart
+  /api/cart/summary:
+    get:
+      consumes:
+      - application/json
+      description: Get cart
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Cart info
+          schema:
+            $ref: '#/definitions/models.Cart'
+        "401":
+          description: Unauthorized
+        "429":
+          description: Too Many Requests
+      summary: GetCart
+      tags:
+      - Cart
+  /api/cart/update:
+    post:
+      consumes:
+      - application/json
+      description: Update cart
+      parameters:
+      - description: cart info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/models.CartUpdate'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: cart info
+          schema:
+            $ref: '#/definitions/models.Cart'
+        "400":
+          description: invalid request
+          schema:
+            $ref: '#/definitions/responser.response'
+        "429":
+          description: Too Many Requests
+      summary: UpdateCart
+      tags:
+      - Cart
+  /api/category/get_all:
+    get:
+      consumes:
+      - application/json
+      description: Get category tree
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Category tree
+          schema:
+            items:
+              $ref: '#/definitions/models.Category'
+            type: array
+        "429":
+          description: Too Many Requests
+      summary: Category
+      tags:
+      - Category
+  /api/comments/create:
+    post:
+      consumes:
+      - application/json
+      description: Create Comment to product
+      parameters:
+      - description: cart info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/models.CommentPayload'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Comment created
+          schema:
+            $ref: '#/definitions/models.Comment'
+        "401":
+          description: User unauthorized
+        "406":
+          description: Comment is invalid
+        "413":
+          description: User already has commented this product
+          schema:
+            $ref: '#/definitions/models.Comment'
+        "429":
+          description: Too Many Requests
+      summary: CreateComment
+      tags:
+      - Comments
+  /api/comments/get_all:
+    get:
+      consumes:
+      - application/json
+      description: Get product comments
+      parameters:
+      - description: Product ID
+        in: query
+        name: product
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Comments array
+          schema:
+            items:
+              $ref: '#/definitions/models.Comment'
+            type: array
+        "400":
+          description: error message
+          schema:
+            $ref: '#/definitions/responser.response'
+        "429":
+          description: Too Many Requests
+      summary: GetProductComments
+      tags:
+      - Comments
+  /api/notifications/get_recent:
+    get:
+      consumes:
+      - application/json
+      description: Get Day Notifications
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Recent today notifications
+          schema:
+            items:
+              $ref: '#/definitions/models.Message'
+            type: array
+        "401":
+          description: User unauthorized
+        "404":
+          description: Notifications not found
+        "429":
+          description: Too Many Requests
+      summary: GetDayNotifications
+      tags:
+      - Notifications
+  /api/order/create:
+    post:
+      consumes:
+      - application/json
+      description: Create Order using profile ID from cookies
+      parameters:
+      - description: DeliveryDate and DeliveryTime
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/models.OrderInfo'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: New order info
+          schema:
+            $ref: '#/definitions/models.Order'
+        "401":
+          description: User unauthorized
+        "403":
+          description: Promocode leftout
+        "404":
+          description: something not found error message
+          schema:
+            $ref: '#/definitions/responser.response'
+        "419":
+          description: Promocode expired
+        "429":
+          description: Too Many Requests
+      summary: CreateOrder
+      tags:
+      - Order
+  /api/order/get_all:
+    get:
+      consumes:
+      - application/json
+      description: Get all Orders using profile ID from cookies
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: All orders info
+          schema:
+            items:
+              $ref: '#/definitions/models.Order'
+            type: array
+        "401":
+          description: User unauthorized
+        "404":
+          description: something not found error message
+          schema:
+            $ref: '#/definitions/responser.response'
+        "429":
+          description: Too Many Requests
+      summary: GetOrders
+      tags:
+      - Order
+  /api/order/get_current:
+    get:
+      consumes:
+      - application/json
+      description: Get Current Order using profile ID from cookies
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Current order info
+          schema:
+            $ref: '#/definitions/models.Order'
+        "401":
+          description: User unauthorized
+        "404":
+          description: something not found error message
+          schema:
+            $ref: '#/definitions/responser.response'
+        "429":
+          description: Too Many Requests
+      summary: GetCurrentOrder
+      tags:
+      - Order
+  /api/products/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get product
+      parameters:
+      - description: Product UUID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Product info
+          schema:
+            $ref: '#/definitions/models.Product'
+        "400":
+          description: error message
+          schema:
+            $ref: '#/definitions/responser.response'
+        "429":
+          description: Too Many Requests
+      summary: Product
+      tags:
+      - Products
+  /api/products/category:
+    get:
+      consumes:
+      - application/json
+      description: Get products by category
+      parameters:
+      - description: Category ID
+        in: query
+        name: category_id
+        required: true
+        type: integer
+      - description: Skip number of products
+        in: query
+        name: paging
+        type: integer
+      - description: Display number of products
+        in: query
+        name: count
+        required: true
+        type: integer
+      - description: (Use ASC/DESC and their combinations) Sort products by rating
+        in: query
+        name: ratingBy
+        type: string
+      - description: (Use ASC/DESC and their combinations) Sort products by price
+        in: query
+        name: priceBy
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Products by category id
+          schema:
+            items:
+              $ref: '#/definitions/models.Product'
+            type: array
+        "400":
+          description: error message
+          schema:
+            $ref: '#/definitions/responser.response'
+        "429":
+          description: Too Many Requests
+      summary: Products
+      tags:
+      - Products
+  /api/products/get_all:
+    get:
+      consumes:
+      - application/json
+      description: Get products
+      parameters:
+      - description: Skip number of products
+        in: query
+        name: paging
+        type: integer
+      - description: Display number of products
+        in: query
+        name: count
+        required: true
+        type: integer
+      - description: (Use ASC/DESC and their combinations) Sort products by rating
+        in: query
+        name: ratingBy
+        type: string
+      - description: (Use ASC/DESC and their combinations) Sort products by price
+        in: query
+        name: priceBy
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Products array
+          schema:
+            items:
+              $ref: '#/definitions/models.Product'
+            type: array
+        "400":
+          description: error message
+          schema:
+            $ref: '#/definitions/responser.response'
+        "429":
+          description: Too Many Requests
+      summary: Products
+      tags:
+      - Products
+  /api/profile/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get profile by ID
+      parameters:
+      - description: Profile UUID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Profile
+          schema:
+            $ref: '#/definitions/models.Profile'
+        "400":
+          description: error messege
+          schema:
+            $ref: '#/definitions/responser.response'
+        "429":
+          description: Too Many Requests
+      summary: GetProfile
+      tags:
+      - Profile
+  /api/profile/update-data:
+    post:
+      consumes:
+      - application/json
+      description: Update profile data
+      parameters:
+      - description: UpdateProfileDataPayload
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateProfileDataPayload'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Profile
+          schema:
+            $ref: '#/definitions/models.Profile'
+        "400":
+          description: error messege
+          schema:
+            $ref: '#/definitions/responser.response'
+        "401":
+          description: Unauthorized
+        "429":
+          description: Too Many Requests
+      summary: UpdateProfileData
+      tags:
+      - Profile
+  /api/profile/update-photo:
+    post:
+      consumes:
+      - application/json
+      description: Update profile photo
+      parameters:
+      - description: photo
+        in: body
+        name: input
+        required: true
+        schema:
+          type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Profile
+          schema:
+            $ref: '#/definitions/models.Profile'
+        "401":
+          description: Unauthorized
+        "413":
+          description: Request Entity Too Large
+        "429":
+          description: Too Many Requests
+      summary: UpdatePhoto
+      tags:
+      - Profile
+  /api/promo/check:
+    get:
+      consumes:
+      - application/json
+      description: Check Promocode
+      parameters:
+      - description: 'promocode name, example: SALE23'
+        in: query
+        name: name
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Promocode model
+          schema:
+            $ref: '#/definitions/models.Promocode'
+        "400":
+          description: error message
+          schema:
+            $ref: '#/definitions/responser.response'
+        "401":
+          description: user Unauthorized
+        "403":
+          description: promocode not leftout
+        "404":
+          description: promocode not found
+        "410":
+          description: promocode already used
+        "419":
+          description: promocode expired
+        "429":
+          description: internal error
+      summary: Promo
+      tags:
+      - Promo
+  /api/promo/use:
+    get:
+      consumes:
+      - application/json
+      description: Use Promocode
+      parameters:
+      - description: 'promocode name, example: SALE23'
+        in: query
+        name: name
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Promocode model
+          schema:
+            $ref: '#/definitions/models.Promocode'
+        "400":
+          description: error message
+          schema:
+            $ref: '#/definitions/responser.response'
+        "404":
+          description: something not found error message
+        "429":
+          description: Too Many Requests
+      summary: Promo
+      tags:
+      - Promo
+  /api/recommendations/get_all:
+    get:
+      consumes:
+      - application/json
+      description: Get recommendations
+      parameters:
+      - description: Product UUID
+        in: query
+        name: id
+        required: true
+        type: string
+      - description: Category id
+        in: query
+        name: category_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Products Slice
+          schema:
+            items:
+              items:
+                $ref: '#/definitions/models.Product'
+              type: array
+            type: array
+        "400":
+          description: error message
+          schema:
+            $ref: '#/definitions/responser.response'
+        "429":
+          description: Too Many Requests
+      summary: Recommendations
+      tags:
+      - Recommendations
+  /api/recommendations/get_anon:
+    get:
+      consumes:
+      - application/json
+      description: Get recommendations for product
+      parameters:
+      - description: Product UUID
+        in: query
+        name: id
+        required: true
+        type: string
+      - description: Category id
+        in: query
+        name: category_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Products Slice
+          schema:
+            items:
+              items:
+                $ref: '#/definitions/models.Product'
+              type: array
+            type: array
+        "400":
+          description: error message
+          schema:
+            $ref: '#/definitions/responser.response'
+        "429":
+          description: Too Many Requests
+      summary: AnonRecommendations
+      tags:
+      - Recommendations
+  /api/recommendations/update:
+    post:
+      consumes:
+      - application/json
+      description: Update user activities
+      parameters:
+      - description: User activity info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/models.UserActivity'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: error message
+          schema:
+            $ref: '#/definitions/responser.response'
+        "401":
+          description: User unauthorized
+        "429":
+          description: Too Many Requests
+      summary: UpdateUserActivity
+      tags:
+      - Recommendations
+  /api/search/:
+    get:
+      consumes:
+      - application/json
+      description: Search products by name
+      parameters:
+      - description: Search products by name
+        in: query
+        name: product
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Products array
+          schema:
+            items:
+              $ref: '#/definitions/models.Product'
+            type: array
+        "400":
+          description: error message
+          schema:
+            $ref: '#/definitions/responser.response'
+        "429":
+          description: Too Many Requests
+      summary: SearchProducts
+      tags:
+      - Search
+swagger: "2.0"

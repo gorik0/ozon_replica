@@ -51,3 +51,20 @@
 {"time":"2024-09-19T14:28:31.349751393+03:00","level":"INFO","msg":"grpc server started","addr":"[::]:8013"}
 {"time":"2024-09-19T14:28:34.645423247+03:00","level":"INFO","msg":"starting zuzu-order","env":"prod","addr":"zuzu-order:8012","log_file_path":"zuzu.log"}
 {"time":"2024-09-19T14:28:34.651124145+03:00","level":"INFO","msg":"grpc server started","addr":"[::]:8012"}
+{"time":"2024-09-19T21:59:06.646454203+03:00","level":"INFO","msg":"starting zuzu-products","env":"prod","addr":"zuzu-products:8013","log_file_path":"zuzu.log"}
+{"time":"2024-09-19T21:59:06.648029733+03:00","level":"ERROR","msg":"fail open postgres","error":"failed to connect to `host=0.0.0.0 user=goirk database=postgres`: dial error (dial tcp 0.0.0.0:5432: connect: connection refused)"}
+{"time":"2024-09-19T21:59:34.730847725+03:00","level":"INFO","msg":"starting zuzu-order","env":"prod","addr":"zuzu-order:8012","log_file_path":"zuzu.log"}
+{"time":"2024-09-19T21:59:34.731745742+03:00","level":"ERROR","msg":"fail open postgres","error":"failed to connect to `host=0.0.0.0 user=goirk database=postgres`: dial error (dial tcp 0.0.0.0:5432: connect: connection refused)"}
+{"time":"2024-09-19T21:59:48.460663475+03:00","level":"INFO","msg":"starting zuzu-order","env":"prod","addr":"zuzu-order:8012","log_file_path":"zuzu.log"}
+{"time":"2024-09-19T21:59:48.482657998+03:00","level":"INFO","msg":"grpc server started","addr":"[::]:8012"}
+{"time":"2024-09-19T21:59:52.190078897+03:00","level":"INFO","msg":"starting zuzu-products","env":"prod","addr":"zuzu-products:8013","log_file_path":"zuzu.log"}
+{"time":"2024-09-19T21:59:52.196213548+03:00","level":"INFO","msg":"grpc server started","addr":"[::]:8013"}
+{"time":"2024-09-20T08:25:42.451533578+03:00","level":"INFO","msg":"starting zuzu-order","env":"prod","addr":"zuzu-order:8012","log_file_path":"zuzu.log"}
+{"time":"2024-09-20T08:25:42.453471482+03:00","level":"ERROR","msg":"fail open postgres","error":"failed to connect to `host=0.0.0.0 user=goirk database=postgres`: dial error (dial tcp 0.0.0.0:5432: connect: connection refused)"}
+{"time":"2024-09-20T08:25:57.023184556+03:00","level":"INFO","msg":"starting zuzu-order","env":"prod","addr":"zuzu-order:8012","log_file_path":"zuzu.log"}
+{"time":"2024-09-20T08:25:57.045296396+03:00","level":"INFO","msg":"grpc server started","addr":"[::]:8012"}
+{"time":"2024-09-20T08:26:09.656144354+03:00","level":"INFO","msg":"Gracefully stopped"}
+{"time":"2024-09-20T08:26:26.868918031+03:00","level":"INFO","msg":"starting zuzu-order","env":"prod","addr":"zuzu-order:8012","log_file_path":"zuzu.log"}
+{"time":"2024-09-20T08:26:26.881396795+03:00","level":"INFO","msg":"grpc server started","addr":"[::]:8012"}
+{"time":"2024-09-20T08:26:37.419264382+03:00","level":"INFO","msg":"starting zuzu-products","env":"prod","addr":"zuzu-products:8013","log_file_path":"zuzu.log"}
+{"time":"2024-09-20T08:26:37.425400594+03:00","level":"INFO","msg":"grpc server started","addr":"[::]:8013"}
