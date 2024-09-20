@@ -68,3 +68,6 @@
 {"time":"2024-09-20T08:26:26.881396795+03:00","level":"INFO","msg":"grpc server started","addr":"[::]:8012"}
 {"time":"2024-09-20T08:26:37.419264382+03:00","level":"INFO","msg":"starting zuzu-products","env":"prod","addr":"zuzu-products:8013","log_file_path":"zuzu.log"}
 {"time":"2024-09-20T08:26:37.425400594+03:00","level":"INFO","msg":"grpc server started","addr":"[::]:8013"}
+{"time":"2024-09-20T10:42:41.805357525+03:00","level":"ERROR","msg":"GetOrders empty orders found","op":"grpc.GrpcOrderHandler.GetOrders","error":"orders not found"}
+{"time":"2024-09-20T10:43:57.091315286+03:00","level":"ERROR","msg":"GetOrders empty orders found","op":"grpc.GrpcOrderHandler.GetOrders","error":"orders not found"}
+{"time":"2024-09-20T11:11:32.899470638+03:00","level":"ERROR","msg":"failed to CreateOrder","op":"grpc.GrpcOrderHandler.CreateOrder","error":"error happened in repoAddress.ReadCurrentAddressID: address not found"}

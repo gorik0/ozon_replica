@@ -14,6 +14,9 @@ import (
 	"os"
 	"os/signal"
 	_ "ozon_replic/docs"
+	http8 "ozon_replic/internal/pkg/address/delivery/http"
+	repo4 "ozon_replic/internal/pkg/address/repo"
+	usecase5 "ozon_replic/internal/pkg/address/usecase"
 	"ozon_replic/internal/pkg/auth/delivery/grpc/gen"
 	http2 "ozon_replic/internal/pkg/auth/delivery/http"
 	http4 "ozon_replic/internal/pkg/cart/delivery/http"
@@ -26,11 +29,16 @@ import (
 	"ozon_replic/internal/pkg/middleware"
 	"ozon_replic/internal/pkg/middleware/authmw"
 	"ozon_replic/internal/pkg/middleware/csrfmw"
+	gen3 "ozon_replic/internal/pkg/order/delivery/grpc/gen"
+	http7 "ozon_replic/internal/pkg/order/delivery/http"
+	repo3 "ozon_replic/internal/pkg/order/repo"
+	usecase4 "ozon_replic/internal/pkg/order/usecase"
 	gen2 "ozon_replic/internal/pkg/products/delivery/grpc/gen"
 	http5 "ozon_replic/internal/pkg/products/delivery/http"
 	http3 "ozon_replic/internal/pkg/profile/delivery/http"
 	"ozon_replic/internal/pkg/profile/repo"
 	"ozon_replic/internal/pkg/profile/usecase"
+	repo5 "ozon_replic/internal/pkg/promo/repo"
 	"ozon_replic/internal/pkg/utils/jwter"
 	"ozon_replic/internal/pkg/utils/logger"
 	"ozon_replic/internal/pkg/utils/logger/sl"
@@ -177,19 +185,19 @@ func run() (err error) {
 	categoryUsecase := usecase3.NewCategoryUsecase(categoryRepo)
 	categoryHandler := http6.NewCategoryHandler(log, categoryUsecase)
 	////
-	//addressRepo := NewAddressRepo(db)
-	//addressUsecase := NewAddressUsecase(addressRepo)
-	//addressHandler := NewAddressHandler(log, addressUsecase)
+	addressRepo := repo4.NewAddressRepo(db)
+	addressUsecase := usecase5.NewAddressUsecase(addressRepo)
+	addressHandler := http8.NewAddressHandler(log, addressUsecase)
 	////
-	//promoRepo := NewPromoRepo(db)
+	promoRepo := repo5.NewPromoRepo(db)
 	//promoUsecase := NewPromoUsecase(promoRepo)
 	//promoHandler := NewPromoHandler(log, promoUsecase)
 	////
 	////
-	//orderRepo := NewOrderRepo(db)
-	//orderUsecase := NewOrderUsecase(orderRepo, cartRepo, addressRepo, promoRepo)
-	//orderClient := NewOrderClient(orderConn)
-	//orderHandler := NewOrderHandler(orderClient, log, orderUsecase)
+	orderRepo := repo3.NewOrderRepo(db)
+	orderUsecase := usecase4.NewOrderUsecase(orderRepo, cartRepo, addressRepo, promoRepo)
+	orderClient := gen3.NewOrderClient(orderConn)
+	orderHandler := http7.NewOrderHandler(orderClient, log, orderUsecase)
 	////
 	//commentsRepo := NewCommentsRepo(db)
 	//commentsUsecase := NewCommentsUsecase(commentsRepo)
@@ -289,6 +297,38 @@ func run() (err error) {
 			Methods(http.MethodGet, http.MethodOptions)
 	}
 
+	order := r.PathPrefix("/order").Subrouter()
+	{
+		order.Handle("/create", authMW(csrfMW(http.HandlerFunc(orderHandler.CreateOrder)))).
+			Methods(http.MethodPost, http.MethodGet, http.MethodOptions)
+
+		order.Handle("/get_current", authMW(http.HandlerFunc(orderHandler.GetCurrentOrder))).
+			Methods(http.MethodGet, http.MethodOptions)
+
+		order.Handle("/get_all", authMW(http.HandlerFunc(orderHandler.GetOrders))).
+			Methods(http.MethodGet, http.MethodOptions)
+	}
+
+	address := r.PathPrefix("/address").Subrouter()
+	{
+		address.Handle("/add", authMW(csrfMW(http.HandlerFunc(addressHandler.AddAddress)))).
+			Methods(http.MethodPost, http.MethodGet, http.MethodOptions)
+
+		address.Handle("/update", authMW(csrfMW(http.HandlerFunc(addressHandler.UpdateAddress)))).
+			Methods(http.MethodPost, http.MethodGet, http.MethodOptions)
+
+		address.Handle("/delete", authMW(csrfMW(http.HandlerFunc(addressHandler.DeleteAddress)))).
+			Methods(http.MethodDelete, http.MethodGet, http.MethodOptions)
+
+		address.Handle("/make_current", authMW(csrfMW(http.HandlerFunc(addressHandler.MakeCurrentAddress)))).
+			Methods(http.MethodPost, http.MethodGet, http.MethodOptions)
+
+		address.Handle("/get_current", authMW(http.HandlerFunc(addressHandler.GetCurrentAddress))).
+			Methods(http.MethodGet, http.MethodOptions)
+
+		address.Handle("/get_all", authMW(http.HandlerFunc(addressHandler.GetAllAddresses))).
+			Methods(http.MethodGet, http.MethodOptions)
+	}
 	// ::::::; endPOINTS ;::::::\\\\\\\
 
 	// ::::::; make SERVER;::::::\\\\\\\

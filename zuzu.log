@@ -518,3 +518,29 @@
 {"time":"2024-09-20T10:26:03.00850789+03:00","level":"ERROR","msg":"id is invalid","op":"http.(*ProductHandler).Products","request_id":"","op":"http.(*ProductHandler).Products","request_id":"","op":"http.(*ProductHandler).Product","request_id":"","op":"http.(*ProductHandler).Category","request_id":"","op":"http.(*ProductHandler).Category","request_id":"","error":"strconv.Atoi: parsing \"\": invalid syntax"}
 {"time":"2024-09-20T10:34:32.044368121+03:00","level":"INFO","msg":"starting zuzu-main","env":"prod","addr":"0.0.0.0:8096","log_file_path":"zuzu.log","photos_file_path":"photos/"}
 {"time":"2024-09-20T10:34:32.072050618+03:00","level":"INFO","msg":"server started"}
+{"time":"2024-09-20T10:37:32.843117459+03:00","level":"INFO","msg":"starting zuzu-main","env":"prod","addr":"0.0.0.0:8096","log_file_path":"zuzu.log","photos_file_path":"photos/"}
+{"time":"2024-09-20T10:37:32.865985492+03:00","level":"INFO","msg":"server started"}
+{"time":"2024-09-20T10:42:41.775854355+03:00","level":"INFO","msg":"got profile id","profile id":"96776cab-966c-47ac-8d5b-f043adcd63d1"}
+{"time":"2024-09-20T10:42:41.808652485+03:00","level":"WARN","msg":"orders not found","op":"http.(*OrderHandler).GetOrders","request_id":"","grpc status":{}}
+{"time":"2024-09-20T10:43:20.783272426+03:00","level":"INFO","msg":"got profile id","profile id":"96776cab-966c-47ac-8d5b-f043adcd63d1"}
+{"time":"2024-09-20T10:53:21.834235013+03:00","level":"INFO","msg":"starting zuzu-main","env":"prod","addr":"0.0.0.0:8096","log_file_path":"zuzu.log","photos_file_path":"photos/"}
+{"time":"2024-09-20T10:53:21.859389542+03:00","level":"INFO","msg":"server started"}
+{"time":"2024-09-20T10:57:59.220419632+03:00","level":"INFO","msg":"got profile id","profile id":"96776cab-966c-47ac-8d5b-f043adcd63d1"}
+{"time":"2024-09-20T11:03:52.046299628+03:00","level":"INFO","msg":"got profile id","profile id":"96776cab-966c-47ac-8d5b-f043adcd63d1"}
+{"time":"2024-09-20T11:04:12.795716504+03:00","level":"INFO","msg":"got profile id","profile id":"96776cab-966c-47ac-8d5b-f043adcd63d1"}
+{"time":"2024-09-20T11:05:16.545247663+03:00","level":"INFO","msg":"got profile id","profile id":"96776cab-966c-47ac-8d5b-f043adcd63d1"}
+{"time":"2024-09-20T11:05:23.021637742+03:00","level":"INFO","msg":"got profile id","profile id":"96776cab-966c-47ac-8d5b-f043adcd63d1"}
+{"time":"2024-09-20T11:06:25.779170791+03:00","level":"INFO","msg":"got profile id","profile id":"96776cab-966c-47ac-8d5b-f043adcd63d1"}
+{"time":"2024-09-20T11:06:59.696513357+03:00","level":"INFO","msg":"got profile id","profile id":"96776cab-966c-47ac-8d5b-f043adcd63d1"}
+{"time":"2024-09-20T11:10:10.270685589+03:00","level":"INFO","msg":"got profile id","profile id":"96776cab-966c-47ac-8d5b-f043adcd63d1"}
+{"time":"2024-09-20T11:10:56.384474707+03:00","level":"INFO","msg":"got profile id","profile id":"96776cab-966c-47ac-8d5b-f043adcd63d1"}
+{"time":"2024-09-20T11:12:12.327963608+03:00","level":"WARN","msg":"failed to CreateOrder","op":"http.(*OrderHandler).CreateOrder","request_id":"","error":"rpc error: code = ResourceExhausted desc = error happened in repoAddress.ReadCurrentAddressID: address not found"}
+{"time":"2024-09-20T11:14:10.956172888+03:00","level":"INFO","msg":"starting zuzu-main","env":"prod","addr":"0.0.0.0:8096","log_file_path":"zuzu.log","photos_file_path":"photos/"}
+{"time":"2024-09-20T11:14:10.983744718+03:00","level":"INFO","msg":"server started"}
+{"time":"2024-09-20T11:19:42.416363679+03:00","level":"INFO","msg":"got profile id","profile id":"96776cab-966c-47ac-8d5b-f043adcd63d1"}
+{"time":"2024-09-20T11:19:42.434444371+03:00","level":"INFO","msg":"got profile","op":"grpc.(*GrpcAuthHandler).SignIn","op":"grpc.(*GrpcAuthHandler).CheckAuth","profile":"96776cab-966c-47ac-8d5b-f043adcd63d1"}
+{"time":"2024-09-20T11:20:36.073621619+03:00","level":"INFO","msg":"got profile id","profile id":"96776cab-966c-47ac-8d5b-f043adcd63d1"}
+{"time":"2024-09-20T11:22:31.883884571+03:00","level":"INFO","msg":"starting zuzu-main","env":"prod","addr":"0.0.0.0:8096","log_file_path":"zuzu.log","photos_file_path":"photos/"}
+{"time":"2024-09-20T11:22:31.909750469+03:00","level":"INFO","msg":"server started"}
+{"time":"2024-09-20T11:22:36.69484064+03:00","level":"INFO","msg":"got profile id","profile id":"96776cab-966c-47ac-8d5b-f043adcd63d1"}
+{"time":"2024-09-20T11:23:12.570157376+03:00","level":"INFO","msg":"got profile id","profile id":"96776cab-966c-47ac-8d5b-f043adcd63d1"}
