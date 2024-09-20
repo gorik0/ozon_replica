@@ -25,6 +25,9 @@ import (
 	http6 "ozon_replic/internal/pkg/category/delivery/http"
 	repo2 "ozon_replic/internal/pkg/category/repo"
 	usecase3 "ozon_replic/internal/pkg/category/usecase"
+	http10 "ozon_replic/internal/pkg/comments/delivery/http"
+	repo7 "ozon_replic/internal/pkg/comments/repo"
+	usecase7 "ozon_replic/internal/pkg/comments/usecase"
 	"ozon_replic/internal/pkg/config"
 	"ozon_replic/internal/pkg/middleware"
 	"ozon_replic/internal/pkg/middleware/authmw"
@@ -35,10 +38,14 @@ import (
 	usecase4 "ozon_replic/internal/pkg/order/usecase"
 	gen2 "ozon_replic/internal/pkg/products/delivery/grpc/gen"
 	http5 "ozon_replic/internal/pkg/products/delivery/http"
+	repo8 "ozon_replic/internal/pkg/products/repo"
 	http3 "ozon_replic/internal/pkg/profile/delivery/http"
 	"ozon_replic/internal/pkg/profile/repo"
 	"ozon_replic/internal/pkg/profile/usecase"
 	repo5 "ozon_replic/internal/pkg/promo/repo"
+	http9 "ozon_replic/internal/pkg/search/delivery/http"
+	repo6 "ozon_replic/internal/pkg/search/repo"
+	usecase6 "ozon_replic/internal/pkg/search/usecase"
 	"ozon_replic/internal/pkg/utils/jwter"
 	"ozon_replic/internal/pkg/utils/logger"
 	"ozon_replic/internal/pkg/utils/logger/sl"
@@ -174,12 +181,12 @@ func run() (err error) {
 	cartHandler := http4.NewCartHandler(log, cartUsecase)
 
 	productsClient := gen2.NewProductsClient(productConn)
-	//productsRepo := repo.NewProfileRepo(db)
+	productsRepo := repo8.NewProductsRepo(db)
 	productsHandler := http5.NewProductsHandler(productsClient, log)
 
-	//searchRepo := repo2.NewSearchRepo(db)
-	//searchUsecase := usecase2.NewSearchUsecase(searchRepo, productsRepo)
-	//searchHandler := http5.NewSearchHandler(log, searchUsecase)
+	searchRepo := repo6.NewSearchRepo(db)
+	searchUsecase := usecase6.NewSearchUsecase(searchRepo, productsRepo)
+	searchHandler := http9.NewSearchHandler(log, searchUsecase)
 	////
 	categoryRepo := repo2.NewCategoryRepo(db)
 	categoryUsecase := usecase3.NewCategoryUsecase(categoryRepo)
@@ -199,10 +206,10 @@ func run() (err error) {
 	orderClient := gen3.NewOrderClient(orderConn)
 	orderHandler := http7.NewOrderHandler(orderClient, log, orderUsecase)
 	////
-	//commentsRepo := NewCommentsRepo(db)
-	//commentsUsecase := NewCommentsUsecase(commentsRepo)
-	//commentsHandler := NewCommentsHandler(log, commentsUsecase)
-	////
+	commentsRepo := repo7.NewCommentsRepo(db)
+	commentsUsecase := usecase7.NewCommentsUsecase(commentsRepo)
+	commentsHandler := http10.NewCommentsHandler(log, commentsUsecase)
+	//
 	//recRepo := NewRecommendationsRepo(db)
 	//recUsecase := NewRecommendationsUsecase(recRepo)
 	//recHandler := NewRecommendationsHandler(log, recUsecase)
@@ -327,6 +334,21 @@ func run() (err error) {
 			Methods(http.MethodGet, http.MethodOptions)
 
 		address.Handle("/get_all", authMW(http.HandlerFunc(addressHandler.GetAllAddresses))).
+			Methods(http.MethodGet, http.MethodOptions)
+	}
+
+	search := r.PathPrefix("/search").Subrouter()
+	{
+		search.HandleFunc("/", searchHandler.SearchProducts).
+			Methods(http.MethodGet, http.MethodOptions)
+	}
+
+	comments := r.PathPrefix("/comments").Subrouter()
+	{
+		comments.Handle("/create", authMW(csrfMW(http.HandlerFunc(commentsHandler.CreateComment)))).
+			Methods(http.MethodPost, http.MethodGet, http.MethodOptions)
+
+		comments.HandleFunc("/get_all", commentsHandler.GetProductComments).
 			Methods(http.MethodGet, http.MethodOptions)
 	}
 	// ::::::; endPOINTS ;::::::\\\\\\\
