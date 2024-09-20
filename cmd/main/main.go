@@ -19,6 +19,9 @@ import (
 	http4 "ozon_replic/internal/pkg/cart/delivery/http"
 	cartRepo "ozon_replic/internal/pkg/cart/repo"
 	usecase2 "ozon_replic/internal/pkg/cart/usecase"
+	http6 "ozon_replic/internal/pkg/category/delivery/http"
+	repo2 "ozon_replic/internal/pkg/category/repo"
+	usecase3 "ozon_replic/internal/pkg/category/usecase"
 	"ozon_replic/internal/pkg/config"
 	"ozon_replic/internal/pkg/middleware"
 	"ozon_replic/internal/pkg/middleware/authmw"
@@ -170,36 +173,36 @@ func run() (err error) {
 	//searchUsecase := usecase2.NewSearchUsecase(searchRepo, productsRepo)
 	//searchHandler := http5.NewSearchHandler(log, searchUsecase)
 	////
-	//categoryRepo := repo3.NewCategoryRepo(db)
-	//categoryUsecase := usecase3.NewCategoryUsecase(categoryRepo)
-	//categoryHandler := http6.NewCategoryHandler(log, categoryUsecase)
+	categoryRepo := repo2.NewCategoryRepo(db)
+	categoryUsecase := usecase3.NewCategoryUsecase(categoryRepo)
+	categoryHandler := http6.NewCategoryHandler(log, categoryUsecase)
 	////
-	//addressRepo := addressRepo.NewAddressRepo(db)
-	//addressUsecase := usecase4.NewAddressUsecase(addressRepo)
-	//addressHandler := http7.NewAddressHandler(log, addressUsecase)
+	//addressRepo := NewAddressRepo(db)
+	//addressUsecase := NewAddressUsecase(addressRepo)
+	//addressHandler := NewAddressHandler(log, addressUsecase)
 	////
-	//promoRepo := promoRepo.NewPromoRepo(db)
-	//promoUsecase := usecase5.NewPromoUsecase(promoRepo)
-	//promoHandler := http8.NewPromoHandler(log, promoUsecase)
+	//promoRepo := NewPromoRepo(db)
+	//promoUsecase := NewPromoUsecase(promoRepo)
+	//promoHandler := NewPromoHandler(log, promoUsecase)
 	////
 	////
-	//orderRepo := orderRepo.NewOrderRepo(db)
-	//orderUsecase := usecase6.NewOrderUsecase(orderRepo, cartRepo, addressRepo, promoRepo)
-	//orderClient := gen3.NewOrderClient(orderConn)
-	//orderHandler := http9.NewOrderHandler(orderClient, log, orderUsecase)
+	//orderRepo := NewOrderRepo(db)
+	//orderUsecase := NewOrderUsecase(orderRepo, cartRepo, addressRepo, promoRepo)
+	//orderClient := NewOrderClient(orderConn)
+	//orderHandler := NewOrderHandler(orderClient, log, orderUsecase)
 	////
-	//commentsRepo := repo4.NewCommentsRepo(db)
-	//commentsUsecase := usecase7.NewCommentsUsecase(commentsRepo)
-	//commentsHandler := http10.NewCommentsHandler(log, commentsUsecase)
+	//commentsRepo := NewCommentsRepo(db)
+	//commentsUsecase := NewCommentsUsecase(commentsRepo)
+	//commentsHandler := NewCommentsHandler(log, commentsUsecase)
 	////
-	//recRepo := repo5.NewRecommendationsRepo(db)
-	//recUsecase := usecase8.NewRecommendationsUsecase(recRepo)
-	//recHandler := http11.NewRecommendationsHandler(log, recUsecase)
+	//recRepo := NewRecommendationsRepo(db)
+	//recUsecase := NewRecommendationsUsecase(recRepo)
+	//recHandler := NewRecommendationsHandler(log, recUsecase)
 	////
-	//hub := hub2.NewHub(orderRepo)
-	//notificationsRepo := repo6.NewNotificationsRepo(db)
-	//notificationsUsecase := usecase9.NewNotificationsUsecase(notificationsRepo)
-	//notificationsHandler := http12.NewNotificationsHandler(hub, notificationsUsecase, log)
+	//hub := NewHub(orderRepo)
+	//notificationsRepo := NewNotificationsRepo(db)
+	//notificationsUsecase := NewNotificationsUsecase(notificationsRepo)
+	//notificationsHandler := NewNotificationsHandler(hub, notificationsUsecase, log)
 
 	//::::::     REPO : USECASE : HANDLER : grpcCLIENT   ::::::: \\\\\\\
 
@@ -280,6 +283,12 @@ func run() (err error) {
 		products.HandleFunc("/category", productsHandler.Category).
 			Methods(http.MethodGet, http.MethodOptions)
 	}
+	category := r.PathPrefix("/category").Subrouter()
+	{
+		category.HandleFunc("/get_all", categoryHandler.Categories).
+			Methods(http.MethodGet, http.MethodOptions)
+	}
+
 	// ::::::; endPOINTS ;::::::\\\\\\\
 
 	// ::::::; make SERVER;::::::\\\\\\\
