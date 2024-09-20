@@ -42,7 +42,12 @@ import (
 	http3 "ozon_replic/internal/pkg/profile/delivery/http"
 	"ozon_replic/internal/pkg/profile/repo"
 	"ozon_replic/internal/pkg/profile/usecase"
+	http12 "ozon_replic/internal/pkg/promo/delivery/http"
 	repo5 "ozon_replic/internal/pkg/promo/repo"
+	usecase9 "ozon_replic/internal/pkg/promo/usecase"
+	http11 "ozon_replic/internal/pkg/recommendations/delivery/http"
+	repo9 "ozon_replic/internal/pkg/recommendations/repo"
+	usecase8 "ozon_replic/internal/pkg/recommendations/usecase"
 	http9 "ozon_replic/internal/pkg/search/delivery/http"
 	repo6 "ozon_replic/internal/pkg/search/repo"
 	usecase6 "ozon_replic/internal/pkg/search/usecase"
@@ -197,8 +202,8 @@ func run() (err error) {
 	addressHandler := http8.NewAddressHandler(log, addressUsecase)
 	////
 	promoRepo := repo5.NewPromoRepo(db)
-	//promoUsecase := NewPromoUsecase(promoRepo)
-	//promoHandler := NewPromoHandler(log, promoUsecase)
+	promoUsecase := usecase9.NewPromoUsecase(promoRepo)
+	promoHandler := http12.NewPromoHandler(log, promoUsecase)
 	////
 	////
 	orderRepo := repo3.NewOrderRepo(db)
@@ -210,9 +215,9 @@ func run() (err error) {
 	commentsUsecase := usecase7.NewCommentsUsecase(commentsRepo)
 	commentsHandler := http10.NewCommentsHandler(log, commentsUsecase)
 	//
-	//recRepo := NewRecommendationsRepo(db)
-	//recUsecase := NewRecommendationsUsecase(recRepo)
-	//recHandler := NewRecommendationsHandler(log, recUsecase)
+	recRepo := repo9.NewRecommendationsRepo(db)
+	recUsecase := usecase8.NewRecommendationsUsecase(recRepo)
+	recHandler := http11.NewRecommendationsHandler(log, recUsecase)
 	////
 	//hub := NewHub(orderRepo)
 	//notificationsRepo := NewNotificationsRepo(db)
@@ -349,6 +354,27 @@ func run() (err error) {
 			Methods(http.MethodPost, http.MethodGet, http.MethodOptions)
 
 		comments.HandleFunc("/get_all", commentsHandler.GetProductComments).
+			Methods(http.MethodGet, http.MethodOptions)
+	}
+
+	promo := r.PathPrefix("/promo").Subrouter()
+	{
+		promo.Handle("/check", authMW(http.HandlerFunc(promoHandler.CheckPromocode))).
+			Methods(http.MethodGet, http.MethodOptions)
+
+		promo.Handle("/use", authMW(http.HandlerFunc(promoHandler.UsePromocode))).
+			Methods(http.MethodGet, http.MethodOptions)
+	}
+
+	recs := r.PathPrefix("/recommendations").Subrouter()
+	{
+		recs.Handle("/get_all", authMW(http.HandlerFunc(recHandler.Recommendations))).
+			Methods(http.MethodGet, http.MethodOptions)
+
+		recs.Handle("/update", authMW(http.HandlerFunc(recHandler.UpdateUserActivity))).
+			Methods(http.MethodPost, http.MethodOptions)
+
+		recs.HandleFunc("/get_anon", recHandler.AnonRecommendations).
 			Methods(http.MethodGet, http.MethodOptions)
 	}
 	// ::::::; endPOINTS ;::::::\\\\\\\

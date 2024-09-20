@@ -569,3 +569,18 @@
 {"time":"2024-09-20T12:38:28.788763725+03:00","level":"INFO","msg":"got profile id","profile id":"96776cab-966c-47ac-8d5b-f043adcd63d1"}
 {"time":"2024-09-20T12:38:46.683801764+03:00","level":"INFO","msg":"got profile id","profile id":"96776cab-966c-47ac-8d5b-f043adcd63d1"}
 {"time":"2024-09-20T12:38:47.255417222+03:00","level":"ERROR","msg":"failed in uc.CreateComment","op":"http.(*CommentsHandler).GetProductComments","request_id":"","op":"http.(*CommentsHandler).GetProductComments","request_id":"","op":"http.(*CommentsHandler).CreateComment","request_id":"","op":"http.(*CommentsHandler).CreateComment","request_id":"","op":"http.(*CommentsHandler).CreateComment","request_id":"","op":"http.(*CommentsHandler).CreateComment","request_id":"","op":"http.(*CommentsHandler).CreateComment","request_id":"","op":"http.(*CommentsHandler).CreateComment","request_id":"","op":"http.(*CommentsHandler).CreateComment","request_id":"","error":"many comments to one product"}
+{"time":"2024-09-20T12:41:53.375631428+03:00","level":"INFO","msg":"starting zuzu-main","env":"prod","addr":"0.0.0.0:8096","log_file_path":"zuzu.log","photos_file_path":"photos/"}
+{"time":"2024-09-20T12:41:53.463575338+03:00","level":"INFO","msg":"server started"}
+{"time":"2024-09-20T12:46:48.302505091+03:00","level":"INFO","msg":"got profile id","profile id":"96776cab-966c-47ac-8d5b-f043adcd63d1"}
+{"time":"2024-09-20T12:47:46.834313041+03:00","level":"INFO","msg":"got profile id","profile id":"96776cab-966c-47ac-8d5b-f043adcd63d1"}
+{"time":"2024-09-20T12:48:04.662710403+03:00","level":"INFO","msg":"got profile id","profile id":"96776cab-966c-47ac-8d5b-f043adcd63d1"}
+{"time":"2024-09-20T12:48:14.224636859+03:00","level":"INFO","msg":"got profile id","profile id":"96776cab-966c-47ac-8d5b-f043adcd63d1"}
+{"time":"2024-09-20T12:49:24.489365881+03:00","level":"INFO","msg":"starting zuzu-main","env":"prod","addr":"0.0.0.0:8096","log_file_path":"zuzu.log","photos_file_path":"photos/"}
+{"time":"2024-09-20T12:49:24.607220512+03:00","level":"INFO","msg":"server started"}
+{"time":"2024-09-20T12:49:37.783863349+03:00","level":"INFO","msg":"got profile id","profile id":"96776cab-966c-47ac-8d5b-f043adcd63d1"}
+{"time":"2024-09-20T12:49:57.356762083+03:00","level":"INFO","msg":"got profile id","profile id":"96776cab-966c-47ac-8d5b-f043adcd63d1"}
+{"time":"2024-09-20T12:50:18.845739393+03:00","level":"INFO","msg":"got profile id","profile id":"96776cab-966c-47ac-8d5b-f043adcd63d1"}
+{"time":"2024-09-20T12:50:52.406606521+03:00","level":"INFO","msg":"got profile id","profile id":"96776cab-966c-47ac-8d5b-f043adcd63d1"}
+{"time":"2024-09-20T12:51:09.629921159+03:00","level":"INFO","msg":"got profile id","profile id":"96776cab-966c-47ac-8d5b-f043adcd63d1"}
+{"time":"2024-09-20T12:57:20.146659221+03:00","level":"INFO","msg":"got profile id","profile id":"96776cab-966c-47ac-8d5b-f043adcd63d1"}
+{"time":"2024-09-20T12:57:28.329469272+03:00","level":"INFO","msg":"got profile id","profile id":"96776cab-966c-47ac-8d5b-f043adcd63d1"}
