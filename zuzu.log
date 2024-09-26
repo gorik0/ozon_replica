@@ -630,3 +630,4 @@
 {"time":"2024-09-20T14:43:54.947792229+03:00","level":"INFO","msg":"got profile id","profile id":"96776cab-966c-47ac-8d5b-f043adcd63d1"}
 {"time":"2024-09-20T14:46:26.100657257+03:00","level":"INFO","msg":"got profile id","profile id":"96776cab-966c-47ac-8d5b-f043adcd63d1"}
 {"time":"2024-09-20T14:49:21.03807285+03:00","level":"INFO","msg":"got profile id","profile id":"96776cab-966c-47ac-8d5b-f043adcd63d1"}
+{"time":"2024-09-20T14:54:27.985592431+03:00","level":"INFO","msg":"Gracefully stopped"}

@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"github.com/gorilla/mux"
 	"github.com/jackc/pgx/v4/pgxpool"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 	httpSwagger "github.com/swaggo/http-swagger"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
@@ -29,9 +30,13 @@ import (
 	repo7 "ozon_replic/internal/pkg/comments/repo"
 	usecase7 "ozon_replic/internal/pkg/comments/usecase"
 	"ozon_replic/internal/pkg/config"
+	hub2 "ozon_replic/internal/pkg/hub"
 	"ozon_replic/internal/pkg/middleware"
 	"ozon_replic/internal/pkg/middleware/authmw"
 	"ozon_replic/internal/pkg/middleware/csrfmw"
+	http13 "ozon_replic/internal/pkg/notifications/delivery/http"
+	repo10 "ozon_replic/internal/pkg/notifications/repo"
+	usecase10 "ozon_replic/internal/pkg/notifications/usecase"
 	gen3 "ozon_replic/internal/pkg/order/delivery/grpc/gen"
 	http7 "ozon_replic/internal/pkg/order/delivery/http"
 	repo3 "ozon_replic/internal/pkg/order/repo"
@@ -219,10 +224,10 @@ func run() (err error) {
 	recUsecase := usecase8.NewRecommendationsUsecase(recRepo)
 	recHandler := http11.NewRecommendationsHandler(log, recUsecase)
 	////
-	//hub := NewHub(orderRepo)
-	//notificationsRepo := NewNotificationsRepo(db)
-	//notificationsUsecase := NewNotificationsUsecase(notificationsRepo)
-	//notificationsHandler := NewNotificationsHandler(hub, notificationsUsecase, log)
+	hub := hub2.NewHub(orderRepo)
+	notificationsRepo := repo10.NewNotificationsRepo(db)
+	notificationsUsecase := usecase10.NewNotificationsUsecase(notificationsRepo)
+	notificationsHandler := http13.NewNotificationsHandler(hub, notificationsUsecase, log)
 
 	//::::::     REPO : USECASE : HANDLER : grpcCLIENT   ::::::: \\\\\\\
 
@@ -236,6 +241,8 @@ func run() (err error) {
 	r.NotFoundHandler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Not Found", http.StatusNotFound)
 	})
+
+	r.PathPrefix("/metrics").Handler(promhttp.Handler())
 
 	//r.PathPrefix("/metrics").Handler(promhttp.Handler())
 	//
@@ -375,6 +382,15 @@ func run() (err error) {
 			Methods(http.MethodPost, http.MethodOptions)
 
 		recs.HandleFunc("/get_anon", recHandler.AnonRecommendations).
+			Methods(http.MethodGet, http.MethodOptions)
+	}
+
+	notifications := r.PathPrefix("/notifications").Subrouter()
+	{
+		notifications.Handle("/get_recent", authMW(http.HandlerFunc(notificationsHandler.GetDayNotifications))).
+			Methods(http.MethodGet, http.MethodOptions)
+
+		notifications.Handle("/get_all", authMW(http.HandlerFunc(notificationsHandler.GetNotifications))).
 			Methods(http.MethodGet, http.MethodOptions)
 	}
 	// ::::::; endPOINTS ;::::::\\\\\\\

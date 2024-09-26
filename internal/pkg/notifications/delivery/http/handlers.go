@@ -6,6 +6,7 @@ import (
 	"log/slog"
 	"net/http"
 	"ozon_replic/internal/models/models"
+	"ozon_replic/internal/pkg/hub"
 	"ozon_replic/internal/pkg/middleware/authmw"
 	"ozon_replic/internal/pkg/middleware/logmw"
 	"ozon_replic/internal/pkg/notifications"
@@ -21,12 +22,12 @@ var (
 )
 
 type NotificationsHandler struct {
-	hub userConnections.HubInterface
+	hub hub.HubInterface
 	log *slog.Logger
 	uc  notifications.NotificationsUsecase
 }
 
-func NewNotificationsHandler(hub userConnections.HubInterface, uc notifications.NotificationsUsecase, log *slog.Logger) *NotificationsHandler {
+func NewNotificationsHandler(hub hub.HubInterface, uc notifications.NotificationsUsecase, log *slog.Logger) *NotificationsHandler {
 	return &NotificationsHandler{
 		log: log,
 		hub: hub,
