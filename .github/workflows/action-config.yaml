@@ -7,7 +7,7 @@ on:
 
 
 env:
-  REGISTRY: "mrdjeb"
+  REGISTRY: "gorik0"
   IMAGE_NAME: "zuzu-main-web"
   CONTAINER_NAME: "zuzu-main"
   FOLDER_COMPOSE: "zuzu-main-deploy"
