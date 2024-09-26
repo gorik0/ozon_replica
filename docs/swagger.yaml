@@ -871,7 +871,7 @@ paths:
       - application/json
       responses:
         "200":
-          description: All orders info
+          description: All order info
           schema:
             items:
               $ref: '#/definitions/models.Order'

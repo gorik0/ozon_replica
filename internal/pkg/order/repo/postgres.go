@@ -91,7 +91,7 @@ const (
 
 var (
 	ErrOrderNotFound          = errors.New("order not found")
-	ErrOrdersNotFound         = errors.New("orders not found")
+	ErrOrdersNotFound         = errors.New("order not found")
 	ErrPoductsInOrderNotFound = errors.New("products in order not found")
 	ErrMessageNotFound        = errors.New("message not found")
 	ErrPoductNotFound         = errors.New("product not found")

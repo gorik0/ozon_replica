@@ -850,7 +850,7 @@ const docTemplate = `{
                 "summary": "GetOrders",
                 "responses": {
                     "200": {
-                        "description": "All orders info",
+                        "description": "All order info",
                         "schema": {
                             "type": "array",
                             "items": {

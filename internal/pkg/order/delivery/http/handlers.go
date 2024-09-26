@@ -198,7 +198,7 @@ func (h *OrderHandler) CreateOrder(w http.ResponseWriter, r *http.Request) {
 // @Description	Get all Orders using profile ID from cookies
 // @Accept json
 // @Produce json
-// @Success	200	{array} models.Order "All orders info"
+// @Success	200	{array} models.Order "All order info"
 // @Failure	401	"User unauthorized"
 // @Failure 404	{object} responser.response	"something not found error message"
 // @Failure	429
@@ -228,7 +228,7 @@ func (h *OrderHandler) GetOrders(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		if st.Code() == codes.NotFound {
-			h.log.Warn("orders not found", slog.Any("grpc status", st))
+			h.log.Warn("order not found", slog.Any("grpc status", st))
 			resp.JSONStatus(w, http.StatusNotFound)
 			return
 		}
@@ -300,7 +300,7 @@ func (h *OrderHandler) GetOrders(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	h.log.Debug("h.uc.GetOrders", "orders", orders)
+	h.log.Debug("h.uc.GetOrders", "order", orders)
 	resp.JSON(w, http.StatusOK, (*models.OrderSlice)(&orders))
 }
 
