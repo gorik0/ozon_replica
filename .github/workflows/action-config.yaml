@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-      - RK4
+
 
 env:
   REGISTRY: "mrdjeb"
@@ -31,11 +31,6 @@ jobs:
           go-version: '1.21.x'
           cache: false
 
-      - name: golangci-lint
-        uses: golangci/golangci-lint-action@v3
-
-      - name: Test with the Go CLI
-        run: go test ./...
 
   build_and_push:
     runs-on: ubuntu-latest

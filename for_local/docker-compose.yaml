@@ -13,5 +13,7 @@ services:
       - POSTGRES_USER=goirk
       - POSTGRES_DB=ozone
 
+volumes:
+   zuzu-db-data:
 
 
