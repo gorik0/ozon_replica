@@ -2,7 +2,7 @@
 # Builder
 #
 
-FROM golang:1.21.0-alpine AS builder
+FROM golang:alpine AS builder
 
 COPY . /github.com/go-park-mail-ru/2023_2_potatiki/
 WORKDIR /github.com/go-park-mail-ru/2023_2_potatiki/
