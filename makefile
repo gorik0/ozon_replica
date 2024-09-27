@@ -1,4 +1,4 @@
-init_db:
+
 
 
 
@@ -13,13 +13,13 @@ run_migration_force:
 
 
 
-grpc_gen:
+grpc_gen: #generate grpc stuff
 	protoc --go_out=. --go_opt=paths=source_relative proto/gmodels/*.proto
 	protoc --proto_path=proto --go_out=. --go-grpc_out=. proto/*.proto
 
 
 
-run_auth:
+run_auth:# run auth service (for local)
 	AUTH_JWT_SECRET_KEY=a \
   	CSRF_JWT_SECRET_KEY=a \
   	POSTGRES_DB=postgres \
@@ -29,7 +29,7 @@ run_auth:
   	POSTGRES_USER=goirk \
    	go run cmd/auth/main.go
 
-run_products:
+run_products:# run products service (for local)
 	AUTH_JWT_SECRET_KEY=a \
   	CSRF_JWT_SECRET_KEY=a \
   	POSTGRES_DB=postgres \
@@ -39,7 +39,7 @@ run_products:
   	POSTGRES_USER=goirk \
    	go run cmd/products/main.go
 
-run_order:
+run_order: # run order service (for local)
 	AUTH_JWT_SECRET_KEY=a \
   	CSRF_JWT_SECRET_KEY=a \
   	POSTGRES_DB=postgres \
@@ -49,7 +49,7 @@ run_order:
   	POSTGRES_USER=goirk \
    	go run cmd/orders/main.go
 
-run_main:
+run_main: # run main service (for local)
 	AUTH_JWT_SECRET_KEY=a \
   	CSRF_JWT_SECRET_KEY=a \
   	POSTGRES_DB=postgres \
@@ -62,11 +62,14 @@ run_main:
 
 
 
-client_auth:
+client_auth: #Test grpc client for auth_service
 	go run client/auth/client.go
 
-client_products:
+client_products:  #Test grpc client for products_service
 	go run client/products/client.go
 
-client_orders:
+client_orders:  #Test grpc client for orders_service
 	go run client/order/client.go
+
+
+run_all: run_products run_auth run_order run_main
